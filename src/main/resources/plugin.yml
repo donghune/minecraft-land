@@ -1,4 +1,8 @@
-name: $pluginName
-main: $pluginMain
-api-version: '1.16'
-version: $version
+name: com.github.donghune.land.Land
+version: @version@
+main: com.github.donghune.land.LandPlugin
+api-version: 1.16
+
+commands:
+  credit:
+  land:
