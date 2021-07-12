@@ -1,6 +1,7 @@
 package com.github.donghune.land.inventory.personal
 
 import com.github.donghune.land.model.entity.Land
+import com.github.donghune.land.model.repository.LandRepository
 import com.github.donghune.plugin
 import com.github.donghune.namulibrary.inventory.GUI
 import org.bukkit.entity.Player
@@ -24,5 +25,15 @@ class PersonalLandAuthorityPermissionInventory(
     }
 
     override suspend fun setContent() {
+        land.authorityPermission.onEachIndexed { index, entry ->
+            val permission = entry.key
+            val value = entry.value
+            setItem(index, permission.toItemStack(value)) {
+                it.isCancelled = true
+                land.authorityPermission[permission] = !value
+                LandRepository.update(land.chunkKey.toString(), land)
+                refreshContent()
+            }
+        }
     }
 }

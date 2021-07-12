@@ -1,6 +1,7 @@
 package com.github.donghune.land.model.entity
 
 import com.github.donghune.land.extension.getChunk
+import com.github.donghune.land.model.permission.AuthorityPermission
 import com.github.donghune.land.model.permission.EnvironmentPermission
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import org.apache.commons.lang.mutable.Mutable
@@ -19,6 +20,7 @@ data class Land(
     var owner: String,
     val member: MutableList<UUID>,
     var environmentPermission: MutableMap<EnvironmentPermission, Boolean>,
+    var authorityPermission: MutableMap<AuthorityPermission, Boolean>,
 ) : ConfigurationSerializable {
 
     companion object {
@@ -31,7 +33,10 @@ data class Land(
                 (data["member"] as List<String>).map { UUID.fromString(it) }.toMutableList(),
                 (data["environmentPermission"] as Map<String, Boolean>)
                     .mapKeys { EnvironmentPermission.valueOf(it.key) }
-                    .toMap() as MutableMap<EnvironmentPermission, Boolean>
+                    .toMap() as MutableMap<EnvironmentPermission, Boolean>,
+                (data["authorityPermission"] as Map<String, Boolean>)
+                    .mapKeys { AuthorityPermission.valueOf(it.key) }
+                    .toMap() as MutableMap<AuthorityPermission, Boolean>
             )
         }
     }
@@ -42,7 +47,8 @@ data class Land(
             "type" to type.toString(),
             "owner" to owner,
             "member" to member.map { it.toString() }.toList(),
-            "environmentPermission" to environmentPermission.mapKeys { it.key.toString() }
+            "environmentPermission" to environmentPermission.mapKeys { it.key.toString() },
+            "authorityPermission" to authorityPermission.mapKeys { it.key.toString() }
         )
     }
 

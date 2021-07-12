@@ -2,6 +2,7 @@ package com.github.donghune
 
 import com.github.donghune.rating.command.CreditRatingCommand
 import com.github.donghune.land.command.LandCommand
+import com.github.donghune.land.listener.AuthorityPermissionListener
 import com.github.donghune.land.listener.EnvironmentPermissionListener
 import com.github.donghune.rating.listener.CreditRatingListener
 import com.github.donghune.rating.model.entity.CreditRating
@@ -24,6 +25,7 @@ class LandPlugin : JavaPlugin() {
 
         Bukkit.getPluginManager().registerEvents(CreditRatingListener(), this)
         Bukkit.getPluginManager().registerEvents(EnvironmentPermissionListener(), this)
+        Bukkit.getPluginManager().registerEvents(AuthorityPermissionListener(), this)
 
         ConfigurationSerialization.registerClass(CreditRating::class.java)
         ConfigurationSerialization.registerClass(CreditRatingConfig::class.java)
