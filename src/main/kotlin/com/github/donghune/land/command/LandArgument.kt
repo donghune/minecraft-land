@@ -16,6 +16,6 @@ object LandArgument : KommandArgument<Land> {
     }
 
     override fun suggest(context: KommandContext, target: String): Collection<String> {
-        return LandRepository.getList().suggest(target) { it.name }
+        return LandRepository.getList().suggest(target) { it.chunkKey.toString()}
     }
 }

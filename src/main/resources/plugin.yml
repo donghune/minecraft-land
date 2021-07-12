@@ -1,4 +1,4 @@
-name: com.github.donghune.land.Land
+name: Land
 version: $version
 main: com.github.donghune.LandPlugin
 api-version: 1.16

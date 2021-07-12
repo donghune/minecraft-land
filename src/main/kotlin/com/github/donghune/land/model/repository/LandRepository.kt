@@ -14,6 +14,6 @@ object LandRepository : EntityRepository<Land>() {
     override val file: File = File(plugin.dataFolder.path + "/lands")
 
     override fun getDefaultData(key: String): Land {
-        return Land(key, BoundingBox(), LandType.NONE, UUID.randomUUID().toString(), mutableListOf())
+        throw Exception("This function is not available.")
     }
 }

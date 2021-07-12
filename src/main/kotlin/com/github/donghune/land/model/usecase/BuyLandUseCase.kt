@@ -13,16 +13,19 @@ import org.bukkit.entity.Player
 
 object BuyLandUseCase {
 
-    fun buyLand(player: Player, land: Land, buyLandType: LandType) {
+    fun buyChunk(player: Player, buyLandType: LandType) {
 
-        if (!isValidationCheck(player, land, buyLandType)) {
+        if (!isValidationCheck(player, buyLandType)) {
             return
         }
 
         player.takeMoney(getLandBuyPrice(buyLandType))
-        land.owner = player.uniqueId.toString()
-        land.type = LandType.PRIVATE
-        LandRepository.update(land.name, land)
+        Land(
+            player.chunk.chunkKey,
+            LandType.PRIVATE,
+            player.uniqueId.toString(),
+            mutableListOf()
+        ).also { LandRepository.create(it.chunkKey.toString(), it) }
         player.sendInfoMessage("토지를 구매하였습니다.")
 
     }
@@ -36,9 +39,9 @@ object BuyLandUseCase {
         }
     }
 
-    private fun isValidationCheck(player: Player, land: Land, buyLandType: LandType): Boolean {
+    private fun isValidationCheck(player: Player, buyLandType: LandType): Boolean {
 
-        if (land.type != LandType.NONE) {
+        if (LandRepository.get(player.chunk.chunkKey.toString()) != null) {
             player.sendErrorMessage("이미 누가 소유하고 있는 토지입니다.")
             return false
         }
@@ -76,8 +79,10 @@ object BuyLandUseCase {
     private fun isHasMoreLand(player: Player, buyLandType: LandType): Boolean {
         val maxLandCount = when (buyLandType) {
             LandType.PRIVATE -> 9
-            LandType.VILLAGE -> VillageRepository.getList().first { it.owner == player.uniqueId.toString() }.member.size * 5
-            LandType.NATION -> NationRepository.getList().first { it.owner == player.uniqueId.toString() }.villages.size * 10
+            LandType.VILLAGE -> VillageRepository.getList()
+                .first { it.owner == player.uniqueId.toString() }.member.size * 5
+            LandType.NATION -> NationRepository.getList()
+                .first { it.owner == player.uniqueId.toString() }.villages.size * 10
             else -> false
         }
 
