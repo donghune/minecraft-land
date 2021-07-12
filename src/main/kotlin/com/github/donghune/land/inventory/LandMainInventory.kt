@@ -1,6 +1,6 @@
 package com.github.donghune.land.inventory
 
-import com.github.donghune.land.plugin
+import com.github.donghune.plugin
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.inventory.GUI
 import org.bukkit.Material

@@ -1,11 +1,11 @@
 package com.github.donghune.land.extension
 
-import com.github.donghune.land.model.land.entity.Land
-import com.github.donghune.land.model.land.entity.Nation
-import com.github.donghune.land.model.land.entity.Village
-import com.github.donghune.land.model.land.repository.LandRepository
-import com.github.donghune.land.model.land.repository.NationRepository
-import com.github.donghune.land.model.land.repository.VillageRepository
+import com.github.donghune.land.model.entity.Land
+import com.github.donghune.land.model.entity.Nation
+import com.github.donghune.land.model.entity.Village
+import com.github.donghune.land.model.repository.LandRepository
+import com.github.donghune.land.model.repository.NationRepository
+import com.github.donghune.land.model.repository.VillageRepository
 import com.sk89q.worldedit.WorldEdit
 import com.sk89q.worldedit.bukkit.WorldEditPlugin
 import com.sk89q.worldedit.session.SessionManager
