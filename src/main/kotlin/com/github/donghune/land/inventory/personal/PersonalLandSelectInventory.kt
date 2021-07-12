@@ -11,9 +11,8 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
 
-class PersonalLandSelectInventory : GUI(plugin, 27, "메인 메뉴") {
+class PersonalLandSelectInventory : GUI(plugin, 27, "토지 선택") {
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
-        LandSettingInventory().openLater(event.player as Player)
     }
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {
@@ -27,7 +26,7 @@ class PersonalLandSelectInventory : GUI(plugin, 27, "메인 메뉴") {
 
         (9..17).forEach { setItem(it, ItemStack(Material.BARRIER)) { event -> event.isCancelled = true } }
         player.getLandList().forEachIndexed { index, land ->
-            setItem(index + 9, land.toItemStack()) {
+            setItem(index + 9, land.toItemStack(index)) {
                 it.isCancelled = true
                 PersonalLandSettingInventory(land).open(it.whoClicked as Player)
             }

@@ -16,7 +16,7 @@ class PersonalLandEnvironmentPermissionInventory(
     }
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
-        PersonalLandSettingInventory(land).openLater(event.player as Player)
+
     }
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {

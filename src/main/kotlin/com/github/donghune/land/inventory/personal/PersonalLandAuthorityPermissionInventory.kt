@@ -12,11 +12,9 @@ class PersonalLandAuthorityPermissionInventory(
     val land: Land,
 ) : GUI(plugin, 27, "개인 토지 권한 설정") {
 
-    companion object {
-    }
+    companion object;
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
-        PersonalLandSettingInventory(land).openLater(event.player as Player)
     }
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {

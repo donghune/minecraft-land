@@ -31,7 +31,7 @@ class PersonalLandSettingInventory(
         private val ICON_LAND_SELL: () -> ItemStack = {
             ItemBuilder()
                 .setMaterial(Material.GOLD_INGOT)
-                .setDisplay("&f토지 가격")
+                .setDisplay("&f토지 판매")
                 .setLore(listOf(
                     "&f- 1,613,520쉼을 받고 토지를 판매합니다."
                 ))
@@ -67,7 +67,6 @@ class PersonalLandSettingInventory(
     }
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
-        PersonalLandSelectInventory().openLater(event.player as Player)
     }
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {

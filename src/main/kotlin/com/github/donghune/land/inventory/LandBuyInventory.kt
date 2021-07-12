@@ -9,7 +9,6 @@ import org.bukkit.event.inventory.InventoryOpenEvent
 
 class LandBuyInventory : GUI(plugin, 27, "토지 구매") {
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
-        LandMainInventory().open(event.player as Player)
     }
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {

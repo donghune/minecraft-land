@@ -35,7 +35,6 @@ class LandSettingInventory : GUI(plugin, 27, "토지 설정") {
     }
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
-        LandMainInventory().openLater(event.player as Player)
     }
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {

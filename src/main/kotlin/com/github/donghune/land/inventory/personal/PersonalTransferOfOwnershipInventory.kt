@@ -13,8 +13,7 @@ class PersonalTransferOfOwnershipInventory(
 ) : GUI(plugin, 27, "개인 토지 소유권 이전") {
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
-        PersonalLandSettingInventory(land).openLater(event.player as Player)
-    }
+ㅈ    }
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {
     }
