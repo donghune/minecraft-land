@@ -12,7 +12,7 @@ fun PlayerCreditRating.getCreditRating(): CreditRating {
 }
 
 fun PlayerCreditRating.save() {
-    com.github.donghune.land.model.credit_rating.repository.PlayerCreditRatingRepository.save(uuid.toString())
+    PlayerCreditRatingRepository.save(uuid.toString())
 }
 
 fun Player.getCreditRating(): PlayerCreditRating {

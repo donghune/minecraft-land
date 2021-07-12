@@ -1,8 +1,9 @@
 name: com.github.donghune.land.Land
-version: @version@
+version: $version
 main: com.github.donghune.land.LandPlugin
 api-version: 1.16
 
 commands:
   credit:
   land:
+  landa:

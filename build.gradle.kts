@@ -13,20 +13,25 @@ repositories {
     mavenCentral()
     maven(url = "https://papermc.io/repo/repository/maven-public/")
     maven(url = "https://jitpack.io/")
+    maven(url = "https://maven.enginehub.org/repo/")
 }
 
 dependencies {
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
     compileOnly(kotlin("stdlib"))
     compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
+    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.0-SNAPSHOT")
 
     implementation("com.github.monun:tap:3.6.0")
     implementation("com.github.monun:kommand:1.0.0")
-    implementation("com.github.donghune:minecraft-namulibrary:1.0.6")
+    implementation("com.github.donghune:minecraft-namulibrary:1.0.7")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.3")
     implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:1.4.0")
     implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:1.4.0")
     implementation("io.insert-koin:koin-core-ext:3.0.2")
+    implementation("com.github.EngineHub.WorldEdit:bukkit:7.2.3")
 }
 
 /*//ProtocolLib

@@ -8,21 +8,22 @@ import com.github.donghune.land.model.land.repository.LandRepository
 import com.github.donghune.land.model.land.repository.NationRepository
 import com.github.donghune.land.model.land.repository.VillageRepository
 import com.github.donghune.namulibrary.extension.sendErrorMessage
+import com.github.donghune.namulibrary.extension.sendInfoMessage
 import org.bukkit.entity.Player
 
 object BuyLandUseCase {
 
     fun buyLand(player: Player, land: Land, buyLandType: LandType) {
 
-        if (!isValidationCheck(player, buyLandType)) {
+        if (!isValidationCheck(player, land, buyLandType)) {
             return
         }
 
         player.takeMoney(getLandBuyPrice(buyLandType))
-        land.owner = player.uniqueId
+        land.owner = player.uniqueId.toString()
         land.type = LandType.PRIVATE
         LandRepository.update(land.name, land)
-        player.sendMessage("토지를 구매하였습니다.")
+        player.sendInfoMessage("토지를 구매하였습니다.")
 
     }
 
@@ -35,7 +36,12 @@ object BuyLandUseCase {
         }
     }
 
-    private fun isValidationCheck(player: Player, buyLandType: LandType): Boolean {
+    private fun isValidationCheck(player: Player, land: Land, buyLandType: LandType): Boolean {
+
+        if (land.type != LandType.NONE) {
+            player.sendErrorMessage("이미 누가 소유하고 있는 토지입니다.")
+            return false
+        }
 
         if (isPlayerHasVillageOrNation(player, buyLandType).not()) {
             player.sendErrorMessage("소유하고 있는 마을 또는 국가가 존재하지 않습니다.")
@@ -58,10 +64,10 @@ object BuyLandUseCase {
     private fun isPlayerHasVillageOrNation(player: Player, buyLandType: LandType): Boolean {
         return when (buyLandType) {
             LandType.VILLAGE -> {
-                VillageRepository.getList().find { it.owner == player.uniqueId } == null
+                VillageRepository.getList().find { it.owner == player.uniqueId.toString() } == null
             }
             LandType.NATION -> {
-                NationRepository.getList().find { it.owner == player.uniqueId } == null
+                NationRepository.getList().find { it.owner == player.uniqueId.toString() } == null
             }
             else -> true
         }
@@ -70,13 +76,13 @@ object BuyLandUseCase {
     private fun isHasMoreLand(player: Player, buyLandType: LandType): Boolean {
         val maxLandCount = when (buyLandType) {
             LandType.PRIVATE -> 9
-            LandType.VILLAGE -> VillageRepository.getList().first { it.owner == player.uniqueId }.member.size * 5
-            LandType.NATION -> NationRepository.getList().first { it.owner == player.uniqueId }.villages.size * 10
+            LandType.VILLAGE -> VillageRepository.getList().first { it.owner == player.uniqueId.toString() }.member.size * 5
+            LandType.NATION -> NationRepository.getList().first { it.owner == player.uniqueId.toString() }.villages.size * 10
             else -> false
         }
 
         return LandRepository.getList()
-            .filter { it.owner == player.uniqueId }
+            .filter { it.owner == player.uniqueId.toString() }
             .filter { it.type == buyLandType }
             .count() != maxLandCount
     }

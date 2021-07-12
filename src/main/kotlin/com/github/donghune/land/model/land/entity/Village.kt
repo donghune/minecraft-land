@@ -6,20 +6,20 @@ import java.util.*
 
 @SerializableAs("Village")
 data class Village (
-    val uuid: UUID,
+    val uuid: String,
     val name: String,
-    val owner: UUID,
-    val member: List<UUID>,
+    val owner: String,
+    val member: List<String>,
 ) : ConfigurationSerializable {
 
     companion object {
         @JvmStatic
         fun deserialize(data: Map<String, Any>): Village {
             return Village(
-                data["uuid"] as UUID,
+                data["uuid"] as String,
                 data["name"] as String,
-                data["owner"] as UUID,
-                data["member"] as List<UUID>,
+                data["owner"] as String,
+                data["member"] as List<String>,
             )
         }
     }

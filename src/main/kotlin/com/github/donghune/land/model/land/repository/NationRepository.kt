@@ -12,6 +12,6 @@ object NationRepository : EntityRepository<Nation>() {
     override val file: File = File(plugin.dataFolder.path + "/lands")
 
     override fun getDefaultData(key: String): Nation {
-        return Nation(UUID.randomUUID(), key, UUID.randomUUID(), listOf())
+        return Nation(UUID.randomUUID().toString(), key, UUID.randomUUID().toString(), listOf())
     }
 }

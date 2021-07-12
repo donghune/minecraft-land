@@ -12,6 +12,6 @@ object VillageRepository : EntityRepository<Village>() {
     override val file: File = File(plugin.dataFolder.path + "/lands")
 
     override fun getDefaultData(key: String): Village {
-        return Village(UUID.randomUUID(), key, UUID.randomUUID(), listOf())
+        return Village(UUID.randomUUID().toString(), key, UUID.randomUUID().toString(), listOf())
     }
 }
