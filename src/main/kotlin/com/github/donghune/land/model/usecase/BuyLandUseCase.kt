@@ -4,6 +4,7 @@ import com.github.donghune.land.extension.hasMoney
 import com.github.donghune.land.extension.takeMoney
 import com.github.donghune.land.model.entity.Land
 import com.github.donghune.land.model.entity.LandType
+import com.github.donghune.land.model.permission.EnvironmentPermission
 import com.github.donghune.land.model.repository.LandRepository
 import com.github.donghune.land.model.repository.NationRepository
 import com.github.donghune.land.model.repository.VillageRepository
@@ -24,7 +25,8 @@ object BuyLandUseCase {
             player.chunk.chunkKey,
             LandType.PRIVATE,
             player.uniqueId.toString(),
-            mutableListOf()
+            mutableListOf(),
+            EnvironmentPermission.values().associate { it to it.defaultValue } as MutableMap<EnvironmentPermission, Boolean>
         ).also { LandRepository.create(it.chunkKey.toString(), it) }
         player.sendInfoMessage("토지를 구매하였습니다.")
 

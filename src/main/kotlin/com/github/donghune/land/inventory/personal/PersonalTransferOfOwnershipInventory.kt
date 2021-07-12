@@ -13,7 +13,7 @@ class PersonalTransferOfOwnershipInventory(
 ) : GUI(plugin, 27, "개인 토지 소유권 이전") {
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
-ㅈ    }
+    }
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {
     }
