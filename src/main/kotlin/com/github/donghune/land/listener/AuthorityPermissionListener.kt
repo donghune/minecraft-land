@@ -116,12 +116,10 @@ class AuthorityPermissionListener : Listener {
 
         }
 
-        if (entity is Player) {
-            if (playerLand?.authorityPermission?.get(AuthorityPermission.PVP) == true &&
-                entityLand?.authorityPermission?.get(AuthorityPermission.PVP) == true
-            ) {
-                return
-            }
+        if (playerLand?.authorityPermission?.get(AuthorityPermission.PVP) == true &&
+            entityLand?.authorityPermission?.get(AuthorityPermission.PVP) == true
+        ) {
+            return
         }
 
         event.isCancelled = true
