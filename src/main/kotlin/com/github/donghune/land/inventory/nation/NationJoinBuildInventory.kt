@@ -1,4 +1,4 @@
-package com.github.donghune.land.inventory.village
+package com.github.donghune.land.inventory.nation
 
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.inventory.GUI
@@ -10,19 +10,19 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
 
-class VillageJoinBuildInventory : GUI(plugin, 27, "마을 가입 또는 구축") {
+class NationJoinBuildInventory : GUI(plugin, 27, "국가 가입 또는 구축") {
 
     companion object {
         private val ICON_JOIN: () -> ItemStack = {
             ItemBuilder()
                 .setMaterial(Material.BOOK)
-                .setDisplay("&f마을 가입")
+                .setDisplay("&f국가 가입")
                 .build()
         }
         private val ICON_BUILD: () -> ItemStack = {
             ItemBuilder()
                 .setMaterial(Material.WRITABLE_BOOK)
-                .setDisplay("&f마을 구축")
+                .setDisplay("&f국가 구축")
                 .build()
         }
     }
@@ -42,7 +42,7 @@ class VillageJoinBuildInventory : GUI(plugin, 27, "마을 가입 또는 구축")
         }
         setItem(15, ICON_BUILD()) {
             it.isCancelled = true
-            VillageBuildInventory().open(it.whoClicked as Player)
+            NationBuildInventory().open(it.whoClicked as Player)
         }
     }
 }

@@ -1,12 +1,7 @@
 package com.github.donghune.land.model.entity
 
 import com.github.donghune.land.extension.getChunk
-import com.github.donghune.land.model.permission.AuthorityPermission
-import com.github.donghune.land.model.permission.EnvironmentPermission
 import com.github.donghune.namulibrary.extension.ItemBuilder
-import org.apache.commons.lang.mutable.Mutable
-import org.bukkit.Bukkit
-import org.bukkit.Chunk
 import org.bukkit.Material
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.configuration.serialization.SerializableAs
@@ -19,8 +14,7 @@ data class Land(
     var type: LandType,
     var owner: String,
     val member: MutableList<UUID>,
-    var environmentPermission: MutableMap<EnvironmentPermission, Boolean>,
-    var authorityPermission: MutableMap<AuthorityPermission, Boolean>,
+    var landOption: MutableMap<LandOption, Boolean>,
 ) : ConfigurationSerializable {
 
     companion object {
@@ -31,12 +25,9 @@ data class Land(
                 LandType.valueOf(data["type"] as String),
                 data["owner"] as String,
                 (data["member"] as List<String>).map { UUID.fromString(it) }.toMutableList(),
-                (data["environmentPermission"] as Map<String, Boolean>)
-                    .mapKeys { EnvironmentPermission.valueOf(it.key) }
-                    .toMap() as MutableMap<EnvironmentPermission, Boolean>,
-                (data["authorityPermission"] as Map<String, Boolean>)
-                    .mapKeys { AuthorityPermission.valueOf(it.key) }
-                    .toMap() as MutableMap<AuthorityPermission, Boolean>
+                (data["landOption"] as Map<String, Boolean>)
+                    .mapKeys { LandOption.valueOf(it.key) }
+                    .toMap() as MutableMap<LandOption, Boolean>
             )
         }
     }
@@ -47,8 +38,7 @@ data class Land(
             "type" to type.toString(),
             "owner" to owner,
             "member" to member.map { it.toString() }.toList(),
-            "environmentPermission" to environmentPermission.mapKeys { it.key.toString() },
-            "authorityPermission" to authorityPermission.mapKeys { it.key.toString() }
+            "environmentPermission" to landOption.mapKeys { it.key.toString() },
         )
     }
 

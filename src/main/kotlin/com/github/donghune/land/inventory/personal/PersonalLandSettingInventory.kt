@@ -91,12 +91,11 @@ class PersonalLandSettingInventory(
         setItem(13, ICON_ENVIRONMENT_PERMISSION()) {
             val player = it.whoClicked as Player
             it.isCancelled = true
-            PersonalLandEnvironmentPermissionInventory(land).open(player)
         }
         setItem(15, ICON_AUTHORITY_PERMISSION()) {
             val player = it.whoClicked as Player
             it.isCancelled = true
-            PersonalLandAuthorityPermissionInventory(land).open(player)
+            PersonalLandOptionInventory(land).open(player)
         }
         setItem(17, ICON_TRANSFER_OF_OWNERSHIP()) {
             val player = it.whoClicked as Player

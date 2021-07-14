@@ -1,5 +1,8 @@
 package com.github.donghune.land.inventory.village
 
+import com.github.donghune.land.inventory.LandBuyInventory
+import com.github.donghune.land.model.entity.LandType
+import com.github.donghune.land.model.usecase.BuyLandUseCase
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
@@ -10,19 +13,19 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
 
-class VillageJoinBuildInventory : GUI(plugin, 27, "마을 가입 또는 구축") {
+class VillageLandBuyInventory : GUI(plugin, 27, "마을 토지 구매") {
 
     companion object {
-        private val ICON_JOIN: () -> ItemStack = {
+        private val ICON_OK: () -> ItemStack = {
             ItemBuilder()
-                .setMaterial(Material.BOOK)
-                .setDisplay("&f마을 가입")
+                .setMaterial(Material.GREEN_WOOL)
+                .setDisplay("&f구매")
                 .build()
         }
-        private val ICON_BUILD: () -> ItemStack = {
+        private val ICON_CANCEL: () -> ItemStack = {
             ItemBuilder()
-                .setMaterial(Material.WRITABLE_BOOK)
-                .setDisplay("&f마을 구축")
+                .setMaterial(Material.RED_WOOL)
+                .setDisplay("&f취소")
                 .build()
         }
     }
@@ -37,12 +40,11 @@ class VillageJoinBuildInventory : GUI(plugin, 27, "마을 가입 또는 구축")
     }
 
     override suspend fun setContent() {
-        setItem(11, ICON_JOIN()) {
-            it.isCancelled = true
+        setItem(11, ICON_OK()) {
+            BuyLandUseCase.buyChunk(it.whoClicked as Player, LandType.VILLAGE)
         }
-        setItem(15, ICON_BUILD()) {
-            it.isCancelled = true
-            VillageBuildInventory().open(it.whoClicked as Player)
+        setItem(15, ICON_CANCEL()) {
+            LandBuyInventory().open(it.whoClicked as Player)
         }
     }
 }

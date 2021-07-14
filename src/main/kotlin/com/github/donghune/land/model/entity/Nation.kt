@@ -1,7 +1,9 @@
 package com.github.donghune.land.model.entity
 
+import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.configuration.serialization.SerializableAs
+import org.bukkit.inventory.ItemStack
 import java.util.*
 
 @SerializableAs("Nation")

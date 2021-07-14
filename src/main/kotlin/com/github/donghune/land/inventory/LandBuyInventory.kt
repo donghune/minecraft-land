@@ -1,7 +1,14 @@
 package com.github.donghune.land.inventory
 
+import com.github.donghune.land.extension.getBelongingNation
+import com.github.donghune.land.extension.getBelongingVillage
+import com.github.donghune.land.inventory.nation.NationJoinBuildInventory
+import com.github.donghune.land.inventory.nation.NationLandBuyInventory
 import com.github.donghune.land.inventory.personal.PersonalLandBuyInventory
 import com.github.donghune.land.inventory.personal.PersonalLandSelectInventory
+import com.github.donghune.land.inventory.village.VillageJoinBuildInventory
+import com.github.donghune.land.inventory.village.VillageLandBuyInventory
+import com.github.donghune.land.model.entity.Nation
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.plugin
 import com.github.donghune.namulibrary.inventory.GUI
@@ -50,10 +57,24 @@ class LandBuyInventory : GUI(plugin, 27, "토지 구매") {
             PersonalLandBuyInventory().open(it.whoClicked as Player)
         }
         setItem(13, ICON_VILLAGE_LAND()) {
+            it.isCancelled = true
+            val player = it.whoClicked as Player
 
+            if (player.getBelongingVillage() == null) {
+                VillageJoinBuildInventory().open(player)
+            } else {
+                VillageLandBuyInventory().open(player)
+            }
         }
         setItem(15, ICON_NATION_LAND()) {
+            it.isCancelled = true
+            val player = it.whoClicked as Player
 
+            if (player.getBelongingNation() == null) {
+                NationJoinBuildInventory().open(player)
+            } else {
+                NationLandBuyInventory().open(player)
+            }
         }
     }
 }
