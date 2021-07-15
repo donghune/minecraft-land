@@ -1,9 +1,12 @@
 package com.github.donghune.land.inventory.village
 
+import com.github.donghune.land.model.entity.LandType
+import com.github.donghune.land.model.usecase.BuyLandUseCase
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
@@ -80,6 +83,7 @@ class VillageBuildInventory : GUI(plugin, 27, "마을 구축") {
         }
         setItem(15, ICON_BUILD()) {
             it.isCancelled = true
+            BuyLandUseCase.buyChunk(it.whoClicked as Player, LandType.VILLAGE)
         }
     }
 }

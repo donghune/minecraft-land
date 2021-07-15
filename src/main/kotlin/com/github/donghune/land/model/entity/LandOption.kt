@@ -109,4 +109,9 @@ enum class LandOption(
             .setLore(listOf("&f$description".replaceChatColorCode()))
             .build()
     }
+
+    companion object {
+        fun getDefaultTable() =
+            values().associate { it to it.defaultValue } as MutableMap<LandOption, Boolean>
+    }
 }

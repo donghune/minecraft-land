@@ -60,6 +60,21 @@ fun Nation.getNationLandList(): List<Land> {
         .filter { it.type == LandType.NATION }
 }
 
+fun Player.isHasMoreLand(buyLandType: LandType): Boolean {
+    val maxLandCount = when (buyLandType) {
+        LandType.PERSONAL -> 9
+        LandType.VILLAGE -> VillageRepository.getList()
+            .first { it.owner == uniqueId.toString() }.member.size * 5
+        LandType.NATION -> NationRepository.getList()
+            .first { it.owner == uniqueId.toString() }.villages.size * 10
+        else -> false
+    }
+
+    return LandRepository.getList()
+        .filter { it.owner == uniqueId.toString() }
+        .filter { it.type == buyLandType }
+        .count() != maxLandCount
+}
 
 fun Player.getLandList(): List<Land> = LandRepository.getList().filter { it.owner == uniqueId.toString() }
 
