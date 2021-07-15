@@ -23,7 +23,7 @@ object BuyLandUseCase {
         player.takeMoney(getLandBuyPrice(buyLandType))
         Land(
             player.chunk.chunkKey,
-            LandType.PRIVATE,
+            LandType.PERSONAL,
             player.uniqueId.toString(),
             mutableListOf(),
             LandOption.values().associate { it to it.defaultValue } as MutableMap<LandOption, Boolean>
@@ -34,7 +34,7 @@ object BuyLandUseCase {
 
     private fun getLandBuyPrice(buyLandType: LandType): Long {
         return when (buyLandType) {
-            LandType.PRIVATE -> 1792800
+            LandType.PERSONAL -> 1792800
             LandType.VILLAGE -> 2988000
             LandType.NATION -> 5976000
             else -> return 0
@@ -80,7 +80,7 @@ object BuyLandUseCase {
 
     private fun isHasMoreLand(player: Player, buyLandType: LandType): Boolean {
         val maxLandCount = when (buyLandType) {
-            LandType.PRIVATE -> 9
+            LandType.PERSONAL -> 9
             LandType.VILLAGE -> VillageRepository.getList()
                 .first { it.owner == player.uniqueId.toString() }.member.size * 5
             LandType.NATION -> NationRepository.getList()

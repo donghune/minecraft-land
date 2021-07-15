@@ -2,7 +2,7 @@ package com.github.donghune.land.model.entity
 
 enum class LandType {
     NONE,
-    PRIVATE,
+    PERSONAL,
     VILLAGE,
     NATION,
 }

@@ -1,6 +1,7 @@
 package com.github.donghune.land.extension
 
 import com.github.donghune.land.model.entity.Land
+import com.github.donghune.land.model.entity.LandType
 import com.github.donghune.land.model.entity.Nation
 import com.github.donghune.land.model.entity.Village
 import com.github.donghune.land.model.repository.LandRepository
@@ -12,6 +13,7 @@ import com.sk89q.worldedit.session.SessionManager
 import com.sk89q.worldedit.session.SessionOwner
 import org.bukkit.entity.Player
 import org.bukkit.util.BoundingBox
+import java.awt.PageAttributes.MediaType.PERSONAL
 import java.util.*
 
 fun Player.hasMoney(): Long {
@@ -39,6 +41,25 @@ fun Player.getSelection(): BoundingBox {
         )
     }
 }
+
+fun Player.getPersonalLandList(): List<Land> {
+    return LandRepository.getList()
+        .filter { it.owner == uniqueId.toString() }
+        .filter { it.type == LandType.PERSONAL }
+}
+
+fun Village.getVillageLandList(): List<Land> {
+    return LandRepository.getList()
+        .filter { it.owner == uuid }
+        .filter { it.type == LandType.VILLAGE }
+}
+
+fun Nation.getNationLandList(): List<Land> {
+    return LandRepository.getList()
+        .filter { it.owner == uuid }
+        .filter { it.type == LandType.NATION }
+}
+
 
 fun Player.getLandList(): List<Land> = LandRepository.getList().filter { it.owner == uniqueId.toString() }
 

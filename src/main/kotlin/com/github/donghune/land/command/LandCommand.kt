@@ -23,7 +23,7 @@ object LandCommand {
                     executes {
                         val player = it.sender as Player
 
-                        BuyLandUseCase.buyChunk(player, LandType.PRIVATE)
+                        BuyLandUseCase.buyChunk(player, LandType.PERSONAL)
                     }
                 }
             }

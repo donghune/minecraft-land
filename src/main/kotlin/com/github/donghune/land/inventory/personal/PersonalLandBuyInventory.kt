@@ -41,7 +41,7 @@ class PersonalLandBuyInventory : GUI(plugin, 27, "개인 토지 구매") {
 
     override suspend fun setContent() {
         setItem(11, ICON_OK()) {
-            BuyLandUseCase.buyChunk(it.whoClicked as Player, LandType.PRIVATE)
+            BuyLandUseCase.buyChunk(it.whoClicked as Player, LandType.PERSONAL)
         }
         setItem(15, ICON_CANCEL()) {
             LandBuyInventory().open(it.whoClicked as Player)
