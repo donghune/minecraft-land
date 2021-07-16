@@ -5,8 +5,6 @@ import com.github.donghune.land.model.entity.Land
 import com.github.donghune.land.model.entity.LandType
 import com.github.donghune.land.model.entity.LandOption
 import com.github.donghune.land.model.repository.LandRepository
-import com.github.donghune.land.model.repository.NationRepository
-import com.github.donghune.land.model.repository.VillageRepository
 import com.github.donghune.namulibrary.extension.sendErrorMessage
 import com.github.donghune.namulibrary.extension.sendInfoMessage
 import org.bukkit.entity.Player

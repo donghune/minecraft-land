@@ -1,10 +1,12 @@
 package com.github.donghune.land.model.entity
 
-enum class LandType {
-    NONE,
-    PERSONAL,
-    VILLAGE,
-    NATION;
+enum class LandType(
+    val korName: String
+) {
+    NONE("기본"),
+    PERSONAL("개인"),
+    VILLAGE("마을"),
+    NATION("국가");
 
     fun getLandBuyPrice(): Long {
         return when (this) {

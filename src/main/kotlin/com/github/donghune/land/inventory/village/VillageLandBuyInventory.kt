@@ -3,6 +3,7 @@ package com.github.donghune.land.inventory.village
 import com.github.donghune.land.inventory.LandBuyInventory
 import com.github.donghune.land.model.entity.LandType
 import com.github.donghune.land.model.usecase.BuyLandUseCase
+import com.github.donghune.land.model.usecase.BuyLandUseCaseParam
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
@@ -41,7 +42,7 @@ class VillageLandBuyInventory : GUI(plugin, 27, "마을 토지 구매") {
 
     override suspend fun setContent() {
         setItem(11, ICON_OK()) {
-            BuyLandUseCase.buyChunk(it.whoClicked as Player, LandType.VILLAGE)
+            BuyLandUseCase.execute(BuyLandUseCaseParam(it.whoClicked as Player, LandType.VILLAGE))
         }
         setItem(15, ICON_CANCEL()) {
             LandBuyInventory().open(it.whoClicked as Player)

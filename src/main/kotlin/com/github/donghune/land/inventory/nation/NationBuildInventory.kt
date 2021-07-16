@@ -1,6 +1,8 @@
 package com.github.donghune.land.inventory.nation
 
 import com.github.donghune.land.model.entity.LandType
+import com.github.donghune.land.model.usecase.BuildVillageUseCase
+import com.github.donghune.land.model.usecase.BuildVillageUseCaseParam
 import com.github.donghune.land.model.usecase.BuyLandUseCase
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.inventory.GUI
@@ -83,7 +85,7 @@ class NationBuildInventory : GUI(plugin, 27, "국가 구축") {
         }
         setItem(15, ICON_BUILD()) {
             it.isCancelled = true
-            BuyLandUseCase.buyChunk(it.whoClicked as Player, LandType.NATION)
+            BuildVillageUseCase().execute(BuildVillageUseCaseParam(it.whoClicked as Player, LandType.NATION))
         }
     }
 }
