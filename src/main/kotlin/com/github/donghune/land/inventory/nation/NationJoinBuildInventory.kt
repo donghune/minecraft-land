@@ -1,5 +1,6 @@
 package com.github.donghune.land.inventory.nation
 
+import com.github.donghune.land.inventory.village.VillageJoinInventory
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
@@ -39,6 +40,7 @@ class NationJoinBuildInventory : GUI(plugin, 27, "국가 가입 또는 구축") 
     override suspend fun setContent() {
         setItem(11, ICON_JOIN()) {
             it.isCancelled = true
+            NationJoinInventory().open(it.whoClicked as Player)
         }
         setItem(15, ICON_BUILD()) {
             it.isCancelled = true

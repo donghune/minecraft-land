@@ -39,6 +39,7 @@ class VillageJoinBuildInventory : GUI(plugin, 27, "마을 가입 또는 구축")
     override suspend fun setContent() {
         setItem(11, ICON_JOIN()) {
             it.isCancelled = true
+            VillageJoinInventory().open(it.whoClicked as Player)
         }
         setItem(15, ICON_BUILD()) {
             it.isCancelled = true
