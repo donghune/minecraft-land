@@ -1,4 +1,4 @@
-package com.github.donghune.land.inventory.nation
+package com.github.donghune.land.inventory.group
 
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.inventory.GUI
@@ -9,7 +9,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
 
-class NationVillageSettingInventory : GUI(plugin, 27, "국가 마을 설정") {
+class LandGroupJoinInventory : GUI(plugin, 27, "") {
 
     companion object {
         private val ICON_GOLD: () -> ItemStack = {
