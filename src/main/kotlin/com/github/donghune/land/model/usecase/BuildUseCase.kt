@@ -16,7 +16,7 @@ data class BuildVillageUseCaseParam(
     val landType: LandType
 )
 
-class BuildVillageUseCase : BaseUseCase<BuildVillageUseCaseParam, Unit>() {
+object BuildVillageUseCase : BaseUseCase<BuildVillageUseCaseParam, Unit>() {
     override fun validation(param: BuildVillageUseCaseParam): Boolean {
         if (param.player.getBelongingVillage() != null) {
             param.player.sendErrorMessage("${param.landType.korName}에 속해 있거나 가입되어 있는 경우 건설이 불가능합니다.")

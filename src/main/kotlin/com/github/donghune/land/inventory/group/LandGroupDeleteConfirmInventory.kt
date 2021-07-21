@@ -1,5 +1,6 @@
 package com.github.donghune.land.inventory.group
 
+import com.github.donghune.land.inventory.InvIcon
 import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
@@ -9,21 +10,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
 
-class LandGroupDeleteInventory : GUI(plugin, 27, "") {
-
-    companion object {
-        private val ICON_GOLD: () -> ItemStack = {
-            ItemBuilder()
-                .setMaterial(Material.GOLD_INGOT)
-                .setDisplay("")
-                .setLore(
-                    listOf(
-                        ""
-                    )
-                )
-                .build()
-        }
-    }
+class LandGroupDeleteConfirmInventory : GUI(plugin, 27, "") {
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
     }
@@ -35,7 +22,10 @@ class LandGroupDeleteInventory : GUI(plugin, 27, "") {
     }
 
     override suspend fun setContent() {
-        setItem(10, ICON_GOLD()) {
+        setItem(11, InvIcon.ICON_OK()) {
+            it.isCancelled = true
+        }
+        setItem(15, InvIcon.ICON_CANCEL()) {
             it.isCancelled = true
         }
     }

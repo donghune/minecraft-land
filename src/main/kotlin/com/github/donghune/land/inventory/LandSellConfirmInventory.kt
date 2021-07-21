@@ -1,25 +1,12 @@
-package com.github.donghune.land.inventory.group
+package com.github.donghune.land.inventory
 
-import com.github.donghune.land.model.entity.Land
-import com.github.donghune.namulibrary.extension.ItemBuilder
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
-import org.bukkit.Material
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
-import org.bukkit.inventory.ItemStack
 
-class LandGroupSettingInventory(land : Land) : GUI(plugin, 27, "") {
-
-    companion object {
-        private val ICON_GOLD: () -> ItemStack = {
-            ItemBuilder()
-                .setMaterial(Material.GOLD_INGOT)
-                .setDisplay("")
-                .build()
-        }
-    }
+class LandSellConfirmInventory : GUI(plugin, 27, "토지를 판매하시겠습니까?") {
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
     }
@@ -31,7 +18,10 @@ class LandGroupSettingInventory(land : Land) : GUI(plugin, 27, "") {
     }
 
     override suspend fun setContent() {
-        setItem(10, ICON_GOLD()) {
+        setItem(11, InvIcon.ICON_OK()) {
+            it.isCancelled = true
+        }
+        setItem(15, InvIcon.ICON_CANCEL()) {
             it.isCancelled = true
         }
     }
