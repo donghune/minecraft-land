@@ -31,7 +31,7 @@ class LandSettingTypeSelectInventory : GUI(plugin, 27, "설정할 토지의 종�
             it.isCancelled = true
             val player = it.whoClicked as Player
             if (player.getBelongingVillage() == null) {
-                LandGroupBuildJoinInventory().open(it.whoClicked as Player)
+                LandGroupBuildJoinInventory(LandType.VILLAGE).open(it.whoClicked as Player)
                 return@setItem
             }
             LandSelectInventory(LandType.VILLAGE).open(it.whoClicked as Player)
@@ -40,7 +40,7 @@ class LandSettingTypeSelectInventory : GUI(plugin, 27, "설정할 토지의 종�
             it.isCancelled = true
             val player = it.whoClicked as Player
             if (player.getBelongingNation() == null) {
-                LandGroupBuildJoinInventory().open(it.whoClicked as Player)
+                LandGroupBuildJoinInventory(LandType.NATION).open(it.whoClicked as Player)
                 return@setItem
             }
             LandSelectInventory(LandType.NATION).open(it.whoClicked as Player)

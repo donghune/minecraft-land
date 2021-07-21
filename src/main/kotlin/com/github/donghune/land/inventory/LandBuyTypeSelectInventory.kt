@@ -34,7 +34,7 @@ class LandBuyTypeSelectInventory : GUI(plugin, 27, "구매할 토지의 종류�
             it.isCancelled = true
             val player = it.whoClicked as Player
             if (player.getBelongingVillage() == null) {
-                LandGroupBuildJoinInventory().open(it.whoClicked as Player)
+                LandGroupBuildJoinInventory(LandType.VILLAGE).open(it.whoClicked as Player)
                 return@setItem
             }
             LandBuyConfirmInventory(LandType.VILLAGE).open(it.whoClicked as Player)
@@ -43,7 +43,7 @@ class LandBuyTypeSelectInventory : GUI(plugin, 27, "구매할 토지의 종류�
             it.isCancelled = true
             val player = it.whoClicked as Player
             if (player.getBelongingNation() == null) {
-                LandGroupBuildJoinInventory().open(it.whoClicked as Player)
+                LandGroupBuildJoinInventory(LandType.NATION).open(it.whoClicked as Player)
                 return@setItem
             }
             LandBuyConfirmInventory(LandType.NATION).open(it.whoClicked as Player)

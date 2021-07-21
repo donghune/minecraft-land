@@ -1,6 +1,5 @@
 package com.github.donghune.land.inventory.group
 
-import com.github.donghune.land.model.config.pref
 import com.github.donghune.land.model.entity.LandType
 import com.github.donghune.land.model.usecase.BuildVillageUseCase
 import com.github.donghune.land.model.usecase.BuildVillageUseCaseParam
@@ -71,7 +70,7 @@ class LandGroupBuildInventory(
         }
         setItem(0, ICON_BUILD(0)) {
             it.isCancelled = true
-            BuildVillageUseCase.execute(BuildVillageUseCaseParam(it.whoClicked as Player, landType))
+            BuildVillageUseCase(BuildVillageUseCaseParam(it.whoClicked as Player, landType))
             (it.whoClicked as Player).closeInventory()
         }
     }

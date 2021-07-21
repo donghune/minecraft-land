@@ -46,7 +46,7 @@ class LandGroupBuildJoinInventory(
         }
         setItem(15, ICON_BUILD(landType)) {
             it.isCancelled = true
-            LandGroupBuildInventory().open(it.whoClicked as Player)
+            LandGroupBuildInventory(landType).open(it.whoClicked as Player)
         }
     }
 }

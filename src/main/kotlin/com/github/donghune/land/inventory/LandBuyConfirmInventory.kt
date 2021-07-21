@@ -29,7 +29,7 @@ class LandBuyConfirmInventory(
     override suspend fun setContent() {
         setItem(11, InvIcon.ICON_OK()) {
             it.isCancelled = true
-            BuyLandUseCase.execute(BuyLandUseCaseParam(it.whoClicked as Player, landType))
+            BuyLandUseCase(BuyLandUseCaseParam(it.whoClicked as Player, landType))
         }
         setItem(15, InvIcon.ICON_CANCEL()) {
             it.isCancelled = true
