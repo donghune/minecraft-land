@@ -1,6 +1,6 @@
 package com.github.donghune.land.inventory.group
 
-import com.github.donghune.namulibrary.extension.ItemBuilder
+import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
 import org.bukkit.Material
@@ -13,14 +13,9 @@ class LandGroupChildKickInventory : GUI(plugin, 27, "") {
 
     companion object {
         private val ICON_GOLD: () -> ItemStack = {
-            ItemBuilder()
-                .setMaterial(Material.GOLD_INGOT)
-                .setDisplay("")
-                .setLore(
-                    listOf(
-                        ""
-                    )
-                )
+            ItemStackFactory()
+                .setType(Material.GOLD_INGOT)
+                .setDisplayName("")
                 .build()
         }
     }

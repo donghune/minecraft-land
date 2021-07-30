@@ -1,10 +1,6 @@
 package com.github.donghune.land.inventory
 
 import com.github.donghune.land.model.entity.Land
-import com.github.donghune.land.model.usecase.SellLandUseCase
-import com.github.donghune.land.model.usecase.SellLandUseCaseParam
-import com.github.donghune.land.model.usecase.TransferLandUseCase
-import com.github.donghune.land.model.usecase.TransferLandUseCaseParam
 import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
@@ -17,10 +13,11 @@ import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
 import java.util.*
 
-class LandTransformConfirmInventory(
+class LandTransformPlayerSelectInventory(
     private val land: Land,
-    private val player: Player,
-) : GUI(plugin, 27, "소유권을 양도하시겠습니까?") {
+) : GUI(plugin, 27, "소유권을 양도할 플레이어를 선택해주세요") {
+
+    lateinit var player: Player
 
     companion object {
         private val ICON_HEAD: (Player) -> ItemStack = { player ->
@@ -36,24 +33,19 @@ class LandTransformConfirmInventory(
     }
 
     override suspend fun onInventoryOpen(event: InventoryOpenEvent) {
+        player = event.player as Player
     }
 
     override suspend fun onPlayerInventoryClick(event: InventoryClickEvent) {
     }
 
     override suspend fun setContent() {
-        setItem(11, InvIcon.ICON_OK()) {
-            it.isCancelled = true
-            TransferLandUseCase(TransferLandUseCaseParam(it.whoClicked as Player))
-            (it.whoClicked as Player).closeInventory()
-        }
-        setItem(13, ICON_HEAD(player)) {
-            it.isCancelled = true
-        }
-
-        setItem(15, InvIcon.ICON_CANCEL()) {
-            it.isCancelled = true
-            (it.whoClicked as Player).closeInventory()
-        }
+        Bukkit.getOnlinePlayers()
+            .filter { it.uniqueId != player.uniqueId }
+            .forEachIndexed { index, player ->
+                setItem(index, ICON_HEAD(player)) {
+                    LandTransformConfirmInventory(land, player).open(it.whoClicked as Player)
+                }
+            }
     }
 }

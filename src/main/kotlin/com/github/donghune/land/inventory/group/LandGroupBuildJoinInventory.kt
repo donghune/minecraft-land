@@ -1,7 +1,8 @@
 package com.github.donghune.land.inventory.group
 
 import com.github.donghune.land.model.entity.LandType
-import com.github.donghune.namulibrary.extension.ItemBuilder
+import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
+import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
 import org.bukkit.Material
@@ -17,15 +18,15 @@ class LandGroupBuildJoinInventory(
 
     companion object {
         private val ICON_JOIN: (LandType) -> ItemStack = {
-            ItemBuilder()
-                .setMaterial(Material.OAK_SIGN)
-                .setDisplay("${it.korName} 가입")
+            ItemStackFactory()
+                .setType(Material.OAK_SIGN)
+                .setDisplayName("&f${it.korName} 가입".replaceChatColorCode())
                 .build()
         }
         private val ICON_BUILD: (LandType) -> ItemStack = {
-            ItemBuilder()
-                .setMaterial(Material.WRITABLE_BOOK)
-                .setDisplay("${it.korName} 구축")
+            ItemStackFactory()
+                .setType(Material.WRITABLE_BOOK)
+                .setDisplayName("&f${it.korName} 구축".replaceChatColorCode())
                 .build()
         }
     }

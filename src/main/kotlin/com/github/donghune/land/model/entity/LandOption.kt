@@ -106,7 +106,7 @@ enum class LandOption(
         return ItemStackFactory()
             .setType(if (value) Material.GREEN_WOOL else Material.RED_WOOL)
             .setDisplayName("&f$korName".replaceChatColorCode())
-            .setLore(listOf("&f$description".replaceChatColorCode()))
+            .addLore("&f$description".replaceChatColorCode())
             .build()
     }
 

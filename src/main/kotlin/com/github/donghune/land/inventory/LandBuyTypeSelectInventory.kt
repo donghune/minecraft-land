@@ -4,7 +4,7 @@ import com.github.donghune.land.extension.getBelongingNation
 import com.github.donghune.land.extension.getBelongingVillage
 import com.github.donghune.land.inventory.group.LandGroupBuildJoinInventory
 import com.github.donghune.land.model.entity.LandType
-import com.github.donghune.namulibrary.extension.ItemBuilder
+import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
 import org.bukkit.Material

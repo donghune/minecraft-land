@@ -11,13 +11,13 @@ import com.github.donghune.land.model.repository.LandRepository
 import com.github.donghune.namulibrary.extension.sendErrorMessage
 import org.bukkit.entity.Player
 
-data class BuildVillageUseCaseParam(
+data class GroupBuildUseCaseParam(
     val player: Player,
     val landType: LandType
 )
 
-object BuildVillageUseCase : BaseUseCase<BuildVillageUseCaseParam, Unit>() {
-    override fun validation(param: BuildVillageUseCaseParam): Boolean {
+object GroupBuildUseCase : BaseUseCase<GroupBuildUseCaseParam, Unit>() {
+    override fun validation(param: GroupBuildUseCaseParam): Boolean {
         if (param.player.getBelongingVillage() != null) {
             param.player.sendErrorMessage("${param.landType.korName}에 속해 있거나 가입되어 있는 경우 건설이 불가능합니다.")
             return false
@@ -41,7 +41,7 @@ object BuildVillageUseCase : BaseUseCase<BuildVillageUseCaseParam, Unit>() {
         return true
     }
 
-    override fun execute(param: BuildVillageUseCaseParam) {
+    override fun execute(param: GroupBuildUseCaseParam) {
         Land(
             param.player.chunk.chunkKey,
             param.landType,

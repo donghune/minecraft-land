@@ -1,7 +1,8 @@
 package com.github.donghune.land.model.entity
 
 import com.github.donghune.land.extension.getChunk
-import com.github.donghune.namulibrary.extension.ItemBuilder
+import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
+import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import org.bukkit.Material
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.configuration.serialization.SerializableAs
@@ -38,20 +39,16 @@ data class Land(
             "type" to type.toString(),
             "owner" to owner,
             "member" to member.map { it.toString() }.toList(),
-            "environmentPermission" to landOption.mapKeys { it.key.toString() },
+            "landOption" to landOption.mapKeys { it.key.toString() },
         )
     }
 
     fun toItemStack(index: Int): ItemStack {
         val chunk = getChunk()
-        return ItemBuilder()
-            .setMaterial(Material.GRASS_BLOCK)
-            .setDisplay("&f${index}번 토지")
-            .setLore(
-                listOf(
-                    "위치 X[%d] Z[%d]".format(chunk.x, chunk.z),
-                )
-            )
+        return ItemStackFactory()
+            .setType(Material.GRASS_BLOCK)
+            .setDisplayName("&f${index}번 토지".replaceChatColorCode())
+            .addLore("위치 X[%d] Z[%d]".format(chunk.x, chunk.z).replaceChatColorCode())
             .build()
     }
 

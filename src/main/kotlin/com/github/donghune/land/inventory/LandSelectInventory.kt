@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent
 
 class LandSelectInventory(
     private val landType: LandType
-) : GUI(plugin, 27, "") {
+) : GUI(plugin, 27, "토지를 선택해주세요") {
 
     lateinit var target: Player
 

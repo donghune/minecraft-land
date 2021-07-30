@@ -1,9 +1,10 @@
 package com.github.donghune.land.inventory.group
 
 import com.github.donghune.land.model.entity.LandType
-import com.github.donghune.land.model.usecase.BuildVillageUseCase
-import com.github.donghune.land.model.usecase.BuildVillageUseCaseParam
-import com.github.donghune.namulibrary.extension.ItemBuilder
+import com.github.donghune.land.model.usecase.GroupBuildUseCase
+import com.github.donghune.land.model.usecase.GroupBuildUseCaseParam
+import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
+import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import com.github.donghune.namulibrary.extension.toMoneyFormat
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
@@ -15,36 +16,36 @@ import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
 
 class LandGroupBuildInventory(
-    private val landType: LandType
+    private val landType: LandType,
 ) : GUI(plugin, 27, "") {
 
     companion object {
         private val ICON_VAULT: (Int) -> ItemStack = {
-            ItemBuilder()
-                .setMaterial(Material.GOLD_INGOT)
-                .setDisplay("금고 건설 비용")
-                .setLore(listOf("${it.toMoneyFormat()} 쉼"))
+            ItemStackFactory()
+                .setType(Material.GOLD_INGOT)
+                .setDisplayName("&f금고 건설 비용".replaceChatColorCode())
+                .addLore("&f${it.toMoneyFormat()} 쉼".replaceChatColorCode())
                 .build()
         }
         private val ICON_LAND: (Int) -> ItemStack = {
-            ItemBuilder()
-                .setMaterial(Material.GRASS_BLOCK)
-                .setDisplay("")
-                .setLore(listOf("${it.toMoneyFormat()} 쉼"))
+            ItemStackFactory()
+                .setType(Material.GRASS_BLOCK)
+                .setDisplayName("&f중앙 토지 비용".replaceChatColorCode())
+                .addLore("&f${it.toMoneyFormat()} 쉼".replaceChatColorCode())
                 .build()
         }
         private val ICON_BUILDING: (Int) -> ItemStack = {
-            ItemBuilder()
-                .setMaterial(Material.NETHERITE_PICKAXE)
-                .setDisplay("")
-                .setLore(listOf("${it.toMoneyFormat()} 쉼"))
+            ItemStackFactory()
+                .setType(Material.NETHERITE_PICKAXE)
+                .setDisplayName("&f중앙 건물 비용".replaceChatColorCode())
+                .addLore("&f${it.toMoneyFormat()} 쉼".replaceChatColorCode())
                 .build()
         }
         private val ICON_BUILD: (Int) -> ItemStack = {
-            ItemBuilder()
-                .setMaterial(Material.BEACON)
-                .setDisplay("")
-                .setLore(listOf("총 ${it.toMoneyFormat()} 쉼을 지불하고 구축합니다."))
+            ItemStackFactory()
+                .setType(Material.BEACON)
+                .setDisplayName("&f구축하기".replaceChatColorCode())
+                .addLore("&f총 ${it.toMoneyFormat()} 쉼을 지불하고 구축합니다.".replaceChatColorCode())
                 .build()
         }
     }
@@ -59,18 +60,18 @@ class LandGroupBuildInventory(
     }
 
     override suspend fun setContent() {
-        setItem(0, ICON_VAULT(0)) {
+        setItem(10, ICON_VAULT(0)) {
             it.isCancelled = true
         }
-        setItem(0, ICON_LAND(0)) {
+        setItem(11, ICON_LAND(0)) {
             it.isCancelled = true
         }
-        setItem(0, ICON_BUILDING(0)) {
+        setItem(12, ICON_BUILDING(0)) {
             it.isCancelled = true
         }
-        setItem(0, ICON_BUILD(0)) {
+        setItem(15, ICON_BUILD(0)) {
             it.isCancelled = true
-            BuildVillageUseCase(BuildVillageUseCaseParam(it.whoClicked as Player, landType))
+            GroupBuildUseCase(GroupBuildUseCaseParam(it.whoClicked as Player, landType))
             (it.whoClicked as Player).closeInventory()
         }
     }

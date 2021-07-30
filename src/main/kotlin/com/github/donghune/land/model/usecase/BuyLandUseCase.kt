@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 
 data class BuyLandUseCaseParam(
     val player: Player,
-    val landType: LandType
+    val landType: LandType,
 ) : UseCaseParam()
 
 object BuyLandUseCase : BaseUseCase<BuyLandUseCaseParam, Unit>() {
@@ -22,7 +22,12 @@ object BuyLandUseCase : BaseUseCase<BuyLandUseCaseParam, Unit>() {
             return false
         }
 
-        if (param.player.getBelongingVillage() == null || param.player.getBelongingNation() == null) {
+        if (param.landType == LandType.NATION && param.player.getBelongingNation() == null) {
+            param.player.sendErrorMessage("소유하고 있는 마을 또는 국가가 존재하지 않습니다.")
+            return false
+        }
+
+        if (param.landType == LandType.VILLAGE && param.player.getBelongingVillage() == null) {
             param.player.sendErrorMessage("소유하고 있는 마을 또는 국가가 존재하지 않습니다.")
             return false
         }
