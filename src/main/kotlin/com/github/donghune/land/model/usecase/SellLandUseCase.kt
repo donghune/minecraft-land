@@ -1,5 +1,6 @@
 package com.github.donghune.land.model.usecase
 
+import com.github.donghune.land.model.entity.Land
 import org.bukkit.entity.Player
 
 data class SellLandUseCaseParam(

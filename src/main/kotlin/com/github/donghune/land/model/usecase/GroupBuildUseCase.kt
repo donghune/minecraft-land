@@ -1,28 +1,24 @@
 package com.github.donghune.land.model.usecase
 
-import com.github.donghune.land.extension.getBelongingVillage
 import com.github.donghune.land.extension.hasMoney
 import com.github.donghune.land.extension.takeMoney
 import com.github.donghune.land.model.config.pref
-import com.github.donghune.land.model.entity.Land
-import com.github.donghune.land.model.entity.LandOption
-import com.github.donghune.land.model.entity.LandType
+import com.github.donghune.land.model.entity.*
 import com.github.donghune.land.model.repository.LandRepository
+import com.github.donghune.land.model.repository.NationRepository
+import com.github.donghune.land.model.repository.VillageRepository
 import com.github.donghune.namulibrary.extension.sendErrorMessage
+import com.github.donghune.namulibrary.extension.sendInfoMessage
 import org.bukkit.entity.Player
+import java.util.*
 
 data class GroupBuildUseCaseParam(
     val player: Player,
-    val landType: LandType
+    val landType: LandType,
 )
 
 object GroupBuildUseCase : BaseUseCase<GroupBuildUseCaseParam, Unit>() {
     override fun validation(param: GroupBuildUseCaseParam): Boolean {
-        if (param.player.getBelongingVillage() != null) {
-            param.player.sendErrorMessage("${param.landType.korName}에 속해 있거나 가입되어 있는 경우 건설이 불가능합니다.")
-            return false
-        }
-
         if (LandRepository.get(param.player.chunk.chunkKey.toString()) != null) {
             param.player.sendErrorMessage("이미 누가 소유하고 있는 토지입니다.")
             return false
@@ -49,7 +45,32 @@ object GroupBuildUseCase : BaseUseCase<GroupBuildUseCaseParam, Unit>() {
             mutableListOf(),
             LandOption.getDefaultTable()
         ).also { LandRepository.create(it.chunkKey.toString(), it) }
+        when (param.landType) {
+            LandType.VILLAGE -> {
+                Village(
+                    UUID.randomUUID().toString(),
+                    param.player.uniqueId.toString(),
+                    param.player.uniqueId.toString(),
+                    mutableListOf(),
+                    0,
+                    0
+                ).also { VillageRepository.create(it.uuid, it) }
+            }
+            LandType.NATION -> {
+                Nation(
+                    UUID.randomUUID().toString(),
+                    param.player.uniqueId.toString(),
+                    param.player.uniqueId.toString(),
+                    mutableListOf(),
+                    0,
+                    0
+                ).also { NationRepository.create(it.uuid, it) }
+            }
+            else -> return
+        }
+
         param.player.takeMoney(pref.villageBuildPrice.toLong())
+        param.player.sendInfoMessage("${param.landType.korName}을 건설하였습니다.")
     }
 
 }

@@ -1,24 +1,26 @@
 package com.github.donghune.land.inventory.group
 
+import com.github.donghune.land.extension.toUUID
+import com.github.donghune.land.inventory.InvIcon
+import com.github.donghune.land.model.entity.Group
+import com.github.donghune.land.model.entity.Village
+import com.github.donghune.land.model.repository.VillageRepository
 import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
+import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
+import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
+import java.util.*
 
-class LandGroupChildKickInventory : GUI(plugin, 27, "") {
-
-    companion object {
-        private val ICON_GOLD: () -> ItemStack = {
-            ItemStackFactory()
-                .setType(Material.GOLD_INGOT)
-                .setDisplayName("")
-                .build()
-        }
-    }
+class LandGroupChildKickInventory(
+    private val group: Group,
+) : GUI(plugin, 9, "추방 할 구성원을 선택해주세요") {
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
     }
@@ -30,8 +32,12 @@ class LandGroupChildKickInventory : GUI(plugin, 27, "") {
     }
 
     override suspend fun setContent() {
-        setItem(10, ICON_GOLD()) {
-            it.isCancelled = true
+        group.member.forEachIndexed { index, uuid ->
+            val centerIcon = VillageRepository.get(uuid)?.toItemStack() ?: InvIcon.ICON_OWNER(uuid.toUUID())
+            setItem(index, centerIcon) {
+                it.isCancelled = true
+                LandGroupChildKickConfirmInventory(group, uuid.toUUID()).open(it.whoClicked as Player)
+            }
         }
     }
 }

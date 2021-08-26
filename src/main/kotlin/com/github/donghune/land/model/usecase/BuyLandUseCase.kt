@@ -1,6 +1,7 @@
 package com.github.donghune.land.model.usecase
 
 import com.github.donghune.land.extension.*
+import com.github.donghune.land.model.config.pref
 import com.github.donghune.land.model.entity.Land
 import com.github.donghune.land.model.entity.LandType
 import com.github.donghune.land.model.entity.LandOption
@@ -46,6 +47,11 @@ object BuyLandUseCase : BaseUseCase<BuyLandUseCaseParam, Unit>() {
     }
 
     override fun execute(param: BuyLandUseCaseParam) {
+        param.player.chunk.entities
+            .filterIsInstance<Player>()
+            .filter { it.uniqueId != param.player.uniqueId }
+            .forEach { it.teleport(pref.chuckLocation) }
+
         Land(
             param.player.chunk.chunkKey,
             LandType.PERSONAL,

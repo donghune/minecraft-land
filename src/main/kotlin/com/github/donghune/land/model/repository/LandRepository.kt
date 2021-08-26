@@ -1,12 +1,9 @@
 package com.github.donghune.land.model.repository
 
 import com.github.donghune.land.model.entity.Land
-import com.github.donghune.land.model.entity.LandType
-import com.github.donghune.plugin
 import com.github.donghune.namulibrary.model.EntityRepository
-import org.bukkit.util.BoundingBox
+import com.github.donghune.plugin
 import java.io.File
-import java.util.*
 
 object LandRepository : EntityRepository<Land>() {
 

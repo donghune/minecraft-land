@@ -7,9 +7,16 @@ import com.github.donghune.land.model.entity.Village
 import com.github.donghune.land.model.repository.LandRepository
 import com.github.donghune.land.model.repository.NationRepository
 import com.github.donghune.land.model.repository.VillageRepository
+import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
+import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import com.sk89q.worldedit.WorldEdit
+import org.bukkit.Bukkit
+import org.bukkit.Material
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import org.bukkit.util.BoundingBox
+import java.util.*
 
 fun Player.hasMoney(): Long {
     return Long.MAX_VALUE
@@ -61,7 +68,7 @@ fun Player.isHasMoreLand(buyLandType: LandType): Boolean {
         LandType.VILLAGE -> VillageRepository.getList()
             .first { it.owner == uniqueId.toString() }.member.size * 5
         LandType.NATION -> NationRepository.getList()
-            .first { it.owner == uniqueId.toString() }.villages.size * 10
+            .first { it.owner == uniqueId.toString() }.member.size * 10
         else -> false
     }
 
@@ -74,7 +81,7 @@ fun Player.isHasMoreLand(buyLandType: LandType): Boolean {
 fun Player.getLandList(): List<Land> = LandRepository.getList().filter { it.owner == uniqueId.toString() }
 
 fun Nation.getMemberList(): List<String> {
-    return villages.map { nationVillage ->
+    return member.map { nationVillage ->
         VillageRepository.getList().filter { it.uuid == nationVillage }
     }.flatten()
         .map { it.member }
@@ -89,4 +96,44 @@ fun Player.getBelongingVillage(): Village? {
 fun Player.getBelongingNation(): Nation? {
     return NationRepository.getList()
         .find { nation -> nation.owner == uniqueId.toString() || nation.getMemberList().contains(uniqueId.toString()) }
+}
+
+fun OfflinePlayer.toHeadItemStack(): ItemStack {
+    return ItemStackFactory()
+        .setType(Material.PLAYER_HEAD)
+        .SkullMeta { owningPlayer = this@toHeadItemStack }
+        .setDisplayName("&f${this.name}".replaceChatColorCode())
+        .build()
+}
+
+fun UUID.toPlayer(): Player? {
+    return Bukkit.getPlayer(this)
+}
+
+fun UUID.toOfflinePlayer(): OfflinePlayer {
+    return Bukkit.getOfflinePlayer(this)
+}
+
+fun OfflinePlayer.sendColorCodeMessage(message: String) {
+    if (isOnline) {
+        player?.sendMessage(message.replaceChatColorCode())
+    }
+}
+
+fun OfflinePlayer.sendErrorMessage(message: Any) {
+    if (isOnline) {
+        player?.sendColorCodeMessage("&c[ERROR] &f$message")
+    }
+}
+
+fun OfflinePlayer.sendDebugMessage(message: Any) {
+    if (isOnline) {
+        player?.sendColorCodeMessage("&e[Debug] &f$message")
+    }
+}
+
+fun OfflinePlayer.sendInfoMessage(message: Any) {
+    if (isOnline) {
+        player?.sendColorCodeMessage("&9[INFO] &f$message")
+    }
 }

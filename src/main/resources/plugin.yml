@@ -5,5 +5,7 @@ api-version: 1.16
 
 commands:
   credit:
+  village:
+  nation:
   land:
   landa:

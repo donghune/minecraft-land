@@ -9,9 +9,11 @@ import java.util.*
 object VillageRepository : EntityRepository<Village>() {
 
     override val dataType: Class<Village> = Village::class.java
-    override val file: File = File(plugin.dataFolder.path + "/lands")
+    override val file: File = File(plugin.dataFolder.path + "/villages")
 
     override fun getDefaultData(key: String): Village {
-        return Village(UUID.randomUUID().toString(), key, UUID.randomUUID().toString(), listOf())
+        return Village(UUID.randomUUID().toString(), key, UUID.randomUUID().toString(), mutableListOf(), 0, 0)
     }
+
+    fun get(uuid: UUID) = get(uuid.toString())
 }

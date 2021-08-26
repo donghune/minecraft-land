@@ -1,6 +1,7 @@
 package com.github.donghune.land.model.entity
 
 import com.github.donghune.land.extension.getChunk
+import com.github.donghune.land.model.repository.LandRepository
 import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import org.bukkit.Material
@@ -21,21 +22,26 @@ data class Land(
     companion object {
         @JvmStatic
         fun deserialize(data: Map<String, Any>): Land {
-            return Land(
-                data["chunkKey"] as Long,
-                LandType.valueOf(data["type"] as String),
-                data["owner"] as String,
-                (data["member"] as List<String>).map { UUID.fromString(it) }.toMutableList(),
-                (data["landOption"] as Map<String, Boolean>)
-                    .mapKeys { LandOption.valueOf(it.key) }
-                    .toMap() as MutableMap<LandOption, Boolean>
-            )
+            return try {
+                Land(
+                    (data["chunkKey"] as String).toLong(),
+                    LandType.valueOf(data["type"] as String),
+                    data["owner"] as String,
+                    (data["member"] as List<String>).map { UUID.fromString(it) }.toMutableList(),
+                    (data["landOption"] as Map<String, Boolean>)
+                        .mapKeys { LandOption.valueOf(it.key) }
+                        .toMap() as MutableMap<LandOption, Boolean>
+                )
+            }catch (exception : Exception) {
+                exception.printStackTrace()
+                LandRepository.getDefaultData((data["chunkKey"] as String))
+            }
         }
     }
 
-    override fun serialize(): Map<String, Any?> {
+    override fun serialize(): Map<String, Any> {
         return mapOf(
-            "chunkKey" to chunkKey,
+            "chunkKey" to chunkKey.toString(),
             "type" to type.toString(),
             "owner" to owner,
             "member" to member.map { it.toString() }.toList(),

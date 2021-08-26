@@ -1,6 +1,7 @@
 package com.github.donghune.land.inventory.group
 
 import com.github.donghune.land.inventory.InvIcon
+import com.github.donghune.land.model.entity.Group
 import com.github.donghune.land.model.usecase.GroupDeleteUseCase
 import com.github.donghune.land.model.usecase.GroupDeleteUseCaseParam
 import com.github.donghune.land.model.usecase.UpgradeVaultUseCase
@@ -15,7 +16,9 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
 
-class LandGroupDeleteConfirmInventory : GUI(plugin, 27, "") {
+class LandGroupDeleteConfirmInventory(
+    val group: Group,
+) : GUI(plugin, 27, "") {
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
     }
@@ -29,7 +32,7 @@ class LandGroupDeleteConfirmInventory : GUI(plugin, 27, "") {
     override suspend fun setContent() {
         setItem(11, InvIcon.ICON_OK()) {
             it.isCancelled = true
-            GroupDeleteUseCase(GroupDeleteUseCaseParam(it.whoClicked as Player))
+            GroupDeleteUseCase(GroupDeleteUseCaseParam(group))
             (it.whoClicked as Player).closeInventory()
         }
         setItem(15, InvIcon.ICON_CANCEL()) {

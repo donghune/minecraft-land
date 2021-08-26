@@ -43,7 +43,7 @@ class LandGroupBuildJoinInventory(
     override suspend fun setContent() {
         setItem(11, ICON_JOIN(landType)) {
             it.isCancelled = true
-            LandGroupJoinInventory().open(it.whoClicked as Player)
+            LandGroupJoinInventory(landType).open(it.whoClicked as Player)
         }
         setItem(15, ICON_BUILD(landType)) {
             it.isCancelled = true

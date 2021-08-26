@@ -1,11 +1,15 @@
 package com.github.donghune.land.model.config
 
 import com.github.donghune.land.model.repository.LandConfigRepository
+import org.bukkit.Location
 
 val pref: LandPreference
     get() = LandPreference
 
 object LandPreference {
+
+    val chuckLocation: Location
+        get() = LandConfigRepository.get().chuckLocation
 
     val personalLandBuyPrice: Int
         get() = LandConfigRepository.get().personalLandBuyPrice

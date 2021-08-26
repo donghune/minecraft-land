@@ -178,18 +178,19 @@ class EnvironmentPermissionListener : Listener {
 
     @EventHandler
     fun onPlayerMoveEvent(event: PlayerMoveEvent) {
-        val player = event.player
-        val land = player.chunk.getLand() ?: return
-
-        if (land.landOption[LandOption.ENTRY] == true) {
-            return
-        }
-
-        if (land.owner == player.uniqueId.toString()) {
-            return
-        }
-
-        event.isCancelled = true
+//        val player = event.player
+//        val land = player.chunk.getLand() ?: return
+//
+//        if (land.landOption[LandOption.ENTRY] == true) {
+//            return
+//        }
+//
+//        if (land.owner == player.uniqueId.toString()) {
+//            return
+//        }
+//
+//        player.velocity.multiply(-1)
+//        event.isCancelled = true
     }
 
     @EventHandler

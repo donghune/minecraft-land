@@ -1,5 +1,6 @@
 package com.github.donghune.land.model.entity
 
+import org.bukkit.Location
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.configuration.serialization.SerializableAs
 
@@ -13,7 +14,9 @@ data class LandConfig(
     val nationLandBuyPrice: Int,
     val nationLandSellPrice: Int,
     val nationBuildPrice: Int,
+    val chuckLocation : Location
 ) : ConfigurationSerializable {
+
     override fun serialize(): Map<String, Any> {
         return mapOf(
             "personalLandBuyPrice" to personalLandBuyPrice,
@@ -24,6 +27,7 @@ data class LandConfig(
             "nationLandBuyPrice" to nationLandBuyPrice,
             "nationLandSellPrice" to nationLandSellPrice,
             "nationBuildPrice" to nationBuildPrice,
+            "chuckLocation" to chuckLocation,
         )
     }
 
@@ -39,6 +43,7 @@ data class LandConfig(
                 data["nationLandBuyPrice"] as Int,
                 data["nationLandSellPrice"] as Int,
                 data["nationBuildPrice"] as Int,
+                data["chuckLocation"] as Location,
             )
         }
     }
