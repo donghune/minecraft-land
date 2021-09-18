@@ -53,8 +53,7 @@ class LandSelectInventory(
                 when (landType) {
                     LandType.NONE -> return@setItem
                     LandType.PERSONAL -> LandPersonalSettingInventory(land).open(it.whoClicked as Player)
-                    LandType.NATION, LandType.VILLAGE -> LandGroupSettingInventory(land.getVillage()
-                        ?: land.getNation()!!, land).open(it.whoClicked as Player)
+                    LandType.NATION, LandType.VILLAGE -> LandGroupSettingInventory(land.getVillage() ?: land.getNation()!!, land).open(it.whoClicked as Player)
                 }
             }
         }

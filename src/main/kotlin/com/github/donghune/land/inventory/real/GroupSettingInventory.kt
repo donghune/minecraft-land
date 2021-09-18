@@ -1,18 +1,16 @@
 package com.github.donghune.land.inventory.real
 
 import com.github.donghune.land.extension.toUUID
-import com.github.donghune.land.inventory.LandPermissionInventory
-import com.github.donghune.land.inventory.LandSellConfirmInventory
+import com.github.donghune.land.inventory.LandSelectInventory
 import com.github.donghune.land.inventory.group.LandGroupChildInventory
 import com.github.donghune.land.inventory.group.LandGroupDeleteConfirmInventory
 import com.github.donghune.land.inventory.group.LandVaultUpgradeInventory
 import com.github.donghune.land.model.entity.Group
-import com.github.donghune.land.model.entity.Land
 import com.github.donghune.land.model.entity.LandType
-import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
+import com.github.donghune.util.ItemStackFactory
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -32,6 +30,12 @@ class GroupSettingInventory(
                 .setType(Material.PLAYER_HEAD)
                 .SkullMeta { owningPlayer = Bukkit.getOfflinePlayer(uuid) }
                 .setDisplayName("&f${landType.korName} 정보".replaceChatColorCode())
+                .build()
+        }
+        private val ICON_LAND: () -> ItemStack = {
+            ItemStackFactory()
+                .setType(Material.GRASS)
+                .setDisplayName("&f토지 설정".replaceChatColorCode())
                 .build()
         }
         private val ICON_GOLD: () -> ItemStack = {
@@ -66,6 +70,10 @@ class GroupSettingInventory(
     override suspend fun setContent() {
         setItem(10, ICON_OWNER(group.getType(), group.owner.toUUID())) {
             it.isCancelled = true
+        }
+        setItem(12, ICON_LAND()) {
+            it.isCancelled = true
+            LandSelectInventory(group.getType()).open(it.whoClicked as Player)
         }
         setItem(13, ICON_GOLD()) {
             it.isCancelled = true

@@ -4,6 +4,7 @@ import com.github.donghune.rating.model.entity.CreditRating
 import com.github.donghune.rating.model.entity.PlayerCreditRating
 import com.github.donghune.rating.model.repository.CreditRatingConfigRepository
 import com.github.donghune.rating.model.repository.PlayerCreditRatingRepository
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
 fun PlayerCreditRating.getCreditRating(): CreditRating {
@@ -16,5 +17,9 @@ fun PlayerCreditRating.save() {
 }
 
 fun Player.getCreditRating(): PlayerCreditRating {
+    return PlayerCreditRatingRepository.getSafety(uniqueId.toString())
+}
+
+fun OfflinePlayer.getCreditRating(): PlayerCreditRating {
     return PlayerCreditRatingRepository.getSafety(uniqueId.toString())
 }

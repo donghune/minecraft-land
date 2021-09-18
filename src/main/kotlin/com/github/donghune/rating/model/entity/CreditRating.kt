@@ -4,7 +4,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.configuration.serialization.SerializableAs
 
 @SerializableAs("CreditRating")
-data class CreditRating (
+data class CreditRating(
     val id: Int,
     val rating: Int,
     val tag: String,
@@ -31,5 +31,4 @@ data class CreditRating (
             "price" to price,
         )
     }
-
 }

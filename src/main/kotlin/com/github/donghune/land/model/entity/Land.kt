@@ -1,21 +1,20 @@
 package com.github.donghune.land.model.entity
 
-import com.github.donghune.land.extension.getChunk
-import com.github.donghune.land.model.repository.LandRepository
-import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
+import com.github.donghune.land.extension.*
+import com.github.donghune.land.model.repository.*
 import com.github.donghune.namulibrary.extension.replaceChatColorCode
+import com.github.donghune.util.ItemStackFactory
 import org.bukkit.Material
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.configuration.serialization.SerializableAs
+import org.bukkit.entity.Entity
 import org.bukkit.inventory.ItemStack
-import java.util.*
 
 @SerializableAs("Land")
 data class Land(
     val chunkKey: Long,
     var type: LandType,
     var owner: String,
-    val member: MutableList<UUID>,
     var landOption: MutableMap<LandOption, Boolean>,
 ) : ConfigurationSerializable {
 
@@ -27,12 +26,11 @@ data class Land(
                     (data["chunkKey"] as String).toLong(),
                     LandType.valueOf(data["type"] as String),
                     data["owner"] as String,
-                    (data["member"] as List<String>).map { UUID.fromString(it) }.toMutableList(),
                     (data["landOption"] as Map<String, Boolean>)
                         .mapKeys { LandOption.valueOf(it.key) }
                         .toMap() as MutableMap<LandOption, Boolean>
                 )
-            }catch (exception : Exception) {
+            } catch (exception: Exception) {
                 exception.printStackTrace()
                 LandRepository.getDefaultData((data["chunkKey"] as String))
             }
@@ -44,7 +42,6 @@ data class Land(
             "chunkKey" to chunkKey.toString(),
             "type" to type.toString(),
             "owner" to owner,
-            "member" to member.map { it.toString() }.toList(),
             "landOption" to landOption.mapKeys { it.key.toString() },
         )
     }
@@ -57,5 +54,42 @@ data class Land(
             .addLore("위치 X[%d] Z[%d]".format(chunk.x, chunk.z).replaceChatColorCode())
             .build()
     }
+}
 
+/**
+ * 토지 권한
+ */
+fun Land?.hasPermission(entity: Entity, landOption: LandOption): Boolean {
+
+    // Permission 기본적으로 공공재의 권한은 모두 가지고 있음 그래서 true 로 나와야 함
+    if (this == null) {
+        return landOption.getPublicValue()
+    }
+
+    // 개인 토지인 경우 본인 만 가능 하거나 옵션에 따라 다름
+    if (type == LandType.PERSONAL) {
+        return owner == entity.uniqueId.toString() || this.landOption[landOption] ?: landOption.defaultValue
+    }
+
+    // 그룹 토지인 경우
+    if (type == LandType.VILLAGE || type == LandType.NATION) {
+        val group = GroupRepository.getGroup(this.owner) ?: throw Exception("fucking")
+        return group.getMembers()
+            .contains(entity.uniqueId.toString()) || this.landOption[landOption] ?: landOption.defaultValue
+    }
+
+    return true
+}
+
+/**
+ *  토지 보호 건
+ */
+fun Land?.hasProtection(landOption: LandOption): Boolean {
+
+    // Protection 기본적으로 공공재는 보호를 하지 않음 그래서 false 로 나와야 함
+    if (this == null) {
+        return landOption.getPublicValue()
+    }
+
+    return this@hasProtection.landOption[landOption] ?: landOption.defaultValue
 }

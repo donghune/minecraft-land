@@ -1,15 +1,11 @@
 package com.github.donghune.land.inventory.group
 
-import com.github.donghune.land.extension.getNation
-import com.github.donghune.land.extension.getVillage
 import com.github.donghune.land.model.entity.Group
-import com.github.donghune.land.model.entity.Land
-import com.github.donghune.land.model.entity.LandType
-import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import com.github.donghune.namulibrary.extension.toMoneyFormat
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
+import com.github.donghune.util.ItemStackFactory
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -22,7 +18,7 @@ class LandVaultUpgradeInventory(
 ) : GUI(plugin, 27, "") {
 
     companion object {
-        private val ICON_GOLD: (Int, Int) -> ItemStack = { level, gold ->
+        private val ICON_GOLD: (Int, Long) -> ItemStack = { level, gold ->
             ItemStackFactory()
                 .setType(Material.GOLD_INGOT)
                 .setDisplayName("&f현재 금고 정보".replaceChatColorCode())

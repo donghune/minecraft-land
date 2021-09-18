@@ -1,14 +1,12 @@
 package com.github.donghune.land.extension
 
-import com.github.donghune.land.model.entity.Land
-import com.github.donghune.land.model.entity.LandType
-import com.github.donghune.land.model.entity.Nation
-import com.github.donghune.land.model.entity.Village
+import com.github.donghune.land.model.entity.*
 import com.github.donghune.land.model.repository.LandRepository
 import com.github.donghune.land.model.repository.NationRepository
 import com.github.donghune.land.model.repository.VillageRepository
-import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
+import com.github.donghune.money.util.playerMoney
 import com.github.donghune.namulibrary.extension.replaceChatColorCode
+import com.github.donghune.util.ItemStackFactory
 import com.sk89q.worldedit.WorldEdit
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -18,16 +16,32 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.util.BoundingBox
 import java.util.*
 
-fun Player.hasMoney(): Long {
-    return Long.MAX_VALUE
+fun Player.hasMoney(amount: Int): Boolean {
+    return amount <= playerMoney.money
 }
 
 fun Player.giveMoney(money: Long) {
-
+    playerMoney.giveMoney(money)
 }
 
 fun Player.takeMoney(money: Long) {
+    playerMoney.takeMoney(money)
+}
 
+fun OfflinePlayer.hasMoney(amount: Int): Boolean {
+    return amount <= playerMoney?.money ?: 0
+}
+
+fun OfflinePlayer.giveMoney(money: Long) {
+    playerMoney?.giveMoney(money)
+}
+
+fun OfflinePlayer.takeMoney(money: Long) {
+    playerMoney?.takeMoney(money)
+}
+
+fun Player.getGroup(): Group? {
+    return getBelongingVillage() ?: getBelongingNation()
 }
 
 fun Player.getSelection(): BoundingBox {
@@ -50,25 +64,13 @@ fun Player.getPersonalLandList(): List<Land> {
         .filter { it.type == LandType.PERSONAL }
 }
 
-fun Village.getVillageLandList(): List<Land> {
-    return LandRepository.getList()
-        .filter { it.owner == uuid }
-        .filter { it.type == LandType.VILLAGE }
-}
-
-fun Nation.getNationLandList(): List<Land> {
-    return LandRepository.getList()
-        .filter { it.owner == uuid }
-        .filter { it.type == LandType.NATION }
-}
-
 fun Player.isHasMoreLand(buyLandType: LandType): Boolean {
     val maxLandCount = when (buyLandType) {
         LandType.PERSONAL -> 9
         LandType.VILLAGE -> VillageRepository.getList()
-            .first { it.owner == uniqueId.toString() }.member.size * 5
+            .first { it.owner == uniqueId.toString() }.child.size * 5
         LandType.NATION -> NationRepository.getList()
-            .first { it.owner == uniqueId.toString() }.member.size * 10
+            .first { it.owner == uniqueId.toString() }.child.size * 10
         else -> false
     }
 
@@ -81,16 +83,16 @@ fun Player.isHasMoreLand(buyLandType: LandType): Boolean {
 fun Player.getLandList(): List<Land> = LandRepository.getList().filter { it.owner == uniqueId.toString() }
 
 fun Nation.getMemberList(): List<String> {
-    return member.map { nationVillage ->
+    return child.map { nationVillage ->
         VillageRepository.getList().filter { it.uuid == nationVillage }
     }.flatten()
-        .map { it.member }
+        .map { it.child }
         .flatten()
 }
 
 fun Player.getBelongingVillage(): Village? {
     return VillageRepository.getList()
-        .find { village -> village.owner == uniqueId.toString() || village.member.contains(uniqueId.toString()) }
+        .find { village -> village.owner == uniqueId.toString() || village.child.contains(uniqueId.toString()) }
 }
 
 fun Player.getBelongingNation(): Nation? {

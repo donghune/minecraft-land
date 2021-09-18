@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 
 class LandSellConfirmInventory(
-    private val land : Land
+    private val land: Land,
 ) : GUI(plugin, 27, "토지를 판매하시겠습니까?") {
 
     override suspend fun onInventoryClose(event: InventoryCloseEvent) {
@@ -26,7 +26,7 @@ class LandSellConfirmInventory(
     override suspend fun setContent() {
         setItem(11, InvIcon.ICON_OK()) {
             it.isCancelled = true
-            SellLandUseCase(SellLandUseCaseParam(it.whoClicked as Player))
+            SellLandUseCase(SellLandUseCaseParam(land))
             (it.whoClicked as Player).closeInventory()
         }
         setItem(15, InvIcon.ICON_CANCEL()) {

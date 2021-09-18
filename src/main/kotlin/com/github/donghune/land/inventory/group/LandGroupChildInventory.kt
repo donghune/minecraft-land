@@ -1,11 +1,10 @@
 package com.github.donghune.land.inventory.group
 
 import com.github.donghune.land.model.entity.Group
-import com.github.donghune.land.model.entity.Land
-import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
+import com.github.donghune.util.ItemStackFactory
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -14,7 +13,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
 
 class LandGroupChildInventory(
-    val group : Group
+    val group: Group
 ) : GUI(plugin, 27, "구성원 관리") {
 
     companion object {

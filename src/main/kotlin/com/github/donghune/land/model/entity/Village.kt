@@ -1,18 +1,18 @@
 package com.github.donghune.land.model.entity
 
-import com.github.donghune.land.extension.toOfflinePlayer
-import com.github.donghune.land.extension.toPlayer
 import com.github.donghune.land.extension.toUUID
+import com.github.donghune.land.model.repository.LandRepository
 import com.github.donghune.land.model.repository.NationRepository
-import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.extension.replaceChatColorCode
+import com.github.donghune.rating.model.extension.getCreditRating
+import com.github.donghune.util.ItemStackFactory
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.configuration.serialization.SerializableAs
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import java.util.*
 
 @SerializableAs("Village")
 class Village(
@@ -21,8 +21,9 @@ class Village(
     owner: String,
     member: MutableList<String>,
     vaultLevel: Int,
-    vaultGold: Int,
-) : Group(uuid, name, owner, member, vaultLevel, vaultGold), ConfigurationSerializable {
+    vaultGold: Long,
+    createAt: Date,
+) : Group(uuid, name, owner, member, vaultLevel, vaultGold, createAt), ConfigurationSerializable {
 
     companion object {
         @JvmStatic
@@ -33,7 +34,8 @@ class Village(
                 data["owner"] as String,
                 data["member"] as MutableList<String>,
                 data["vaultLevel"] as Int,
-                data["vaultGold"] as Int,
+                (data["vaultGold"] as String).toLong(),
+                Date((data["createAt"] as String).toLong()),
             )
         }
     }
@@ -43,14 +45,11 @@ class Village(
             "uuid" to uuid,
             "name" to name,
             "owner" to owner,
-            "member" to member,
+            "member" to child,
             "vaultLevel" to vaultLevel,
-            "vaultGold" to vaultGold,
+            "vaultGold" to vaultGold.toString(),
+            "createdAt" to createdAt.time.toString()
         )
-    }
-
-    fun getOwnerPlayer() : OfflinePlayer {
-        return owner.toUUID().toOfflinePlayer()
     }
 
     fun toItemStack(): ItemStack = ItemStackFactory()
@@ -58,12 +57,32 @@ class Village(
         .SkullMeta { owningPlayer = Bukkit.getOfflinePlayer(this@Village.owner.toUUID()) }
         .setDisplayName("&f${Bukkit.getOfflinePlayer(this@Village.owner.toUUID()).name}님의 마을".replaceChatColorCode())
         .setLore(
-            member.map {
+            child.map {
                 "&f- ${Bukkit.getOfflinePlayer(it.toUUID()).name}"
             }.toList()
         )
         .addLore("")
-        .addLore("소속되어 있는 국가 : ${NationRepository.getList().find { it.member.contains(uuid) }?.name ?: "없음"}")
+        .addLore("소속되어 있는 국가 : ${NationRepository.getList().find { it.child.contains(uuid) }?.name ?: "없음"}")
         .build()
 
+    override fun getRating(): Int {
+        return child.map { uuid: String -> Bukkit.getOfflinePlayer(uuid.toUUID()) }
+            .map { offlinePlayer: OfflinePlayer -> offlinePlayer.getCreditRating().getCreditRating().rating }
+            .average()
+            .toInt()
+    }
+
+    override fun getType(): LandType {
+        return LandType.VILLAGE
+    }
+
+    override fun getMembers(): List<String> {
+        return child
+    }
+
+    override fun getLandList(): List<Land> {
+        return LandRepository.getList()
+            .filter { it.owner == uuid }
+            .filter { it.type == LandType.VILLAGE }
+    }
 }

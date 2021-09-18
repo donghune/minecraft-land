@@ -8,7 +8,7 @@ import java.io.File
 
 object LandConfigRepository : ConfigRepository<LandConfig>() {
     override val dataType: Class<LandConfig> = LandConfig::class.java
-    override val file: File = File(plugin.dataFolder,"land_config")
+    override val file: File = File(plugin.dataFolder, "LandConfig")
 
     override fun getDefaultData(): LandConfig {
         return LandConfig(
@@ -20,7 +20,13 @@ object LandConfigRepository : ConfigRepository<LandConfig>() {
             0,
             0,
             0,
-            emptyLocation()
+            emptyLocation(),
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
         )
     }
 }

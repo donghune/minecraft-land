@@ -3,11 +3,11 @@ package com.github.donghune.land.inventory.group
 import com.github.donghune.land.model.entity.LandType
 import com.github.donghune.land.model.usecase.GroupBuildUseCase
 import com.github.donghune.land.model.usecase.GroupBuildUseCaseParam
-import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import com.github.donghune.namulibrary.extension.toMoneyFormat
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
+import com.github.donghune.util.ItemStackFactory
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -60,16 +60,16 @@ class LandGroupBuildInventory(
     }
 
     override suspend fun setContent() {
-        setItem(10, ICON_VAULT(0)) {
+        setItem(10, ICON_VAULT(landType.getBuildVaultPrice())) {
             it.isCancelled = true
         }
-        setItem(11, ICON_LAND(0)) {
+        setItem(11, ICON_LAND(landType.getBuildLandPrice())) {
             it.isCancelled = true
         }
-        setItem(12, ICON_BUILDING(0)) {
+        setItem(12, ICON_BUILDING(landType.getBuildBuildingPrice())) {
             it.isCancelled = true
         }
-        setItem(15, ICON_BUILD(0)) {
+        setItem(15, ICON_BUILD(landType.getBuildPrice())) {
             it.isCancelled = true
             GroupBuildUseCase(GroupBuildUseCaseParam(it.whoClicked as Player, landType))
             (it.whoClicked as Player).closeInventory()

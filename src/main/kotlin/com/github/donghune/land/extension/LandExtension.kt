@@ -9,18 +9,18 @@ import java.util.*
 
 fun Land.getVillage(): Village? {
     return VillageRepository.getList()
-        .find { it.owner == this.owner }
+        .find { it.uuid == this.owner }
 }
 
 fun Land.getNation(): Nation? {
     return NationRepository.getList()
-        .find { it.owner == this.owner }
+        .find { it.uuid == this.owner }
 }
 
-fun UUID.getVillage() : Village? {
+fun UUID.getVillage(): Village? {
     return VillageRepository.get(this)
 }
 
-fun UUID.getNation() : Nation? {
+fun UUID.getNation(): Nation? {
     return NationRepository.get(this)
 }

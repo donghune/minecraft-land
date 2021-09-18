@@ -1,24 +1,24 @@
 package com.github.noonmaru.sample
 
-//import net.minecraft.server.v1_16_R2.DispenserRegistry
-//import net.minecraft.server.v1_16_R2.WorldServer
-//import org.apache.commons.lang.reflect.FieldUtils
-//import org.apache.logging.log4j.LogManager
-//import org.bukkit.Bukkit
-//import org.bukkit.Server
-//import org.bukkit.World
-//import org.bukkit.craftbukkit.v1_16_R2.CraftServer
-//import org.bukkit.craftbukkit.v1_16_R2.CraftWorld
-//import org.bukkit.craftbukkit.v1_16_R2.inventory.CraftItemFactory
-//import org.bukkit.craftbukkit.v1_16_R2.util.Versioning
-//import org.mockito.Mockito
-//import org.spigotmc.SpigotWorldConfig
-//import java.util.logging.Logger
+// import net.minecraft.server.v1_16_R2.DispenserRegistry
+// import net.minecraft.server.v1_16_R2.WorldServer
+// import org.apache.commons.lang.reflect.FieldUtils
+// import org.apache.logging.log4j.LogManager
+// import org.bukkit.Bukkit
+// import org.bukkit.Server
+// import org.bukkit.World
+// import org.bukkit.craftbukkit.v1_16_R2.CraftServer
+// import org.bukkit.craftbukkit.v1_16_R2.CraftWorld
+// import org.bukkit.craftbukkit.v1_16_R2.inventory.CraftItemFactory
+// import org.bukkit.craftbukkit.v1_16_R2.util.Versioning
+// import org.mockito.Mockito
+// import org.spigotmc.SpigotWorldConfig
+// import java.util.logging.Logger
 //
-///**
+// /**
 // * @author Kristian
 // */
-//class BukkitInitialization private constructor() {
+// class BukkitInitialization private constructor() {
 //    private var initialized = false
 //
 //    init {
@@ -71,4 +71,4 @@ package com.github.noonmaru.sample
 //            instance.initialize0()
 //        }
 //    }
-//}
+// }

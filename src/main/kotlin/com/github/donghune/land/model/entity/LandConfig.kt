@@ -14,7 +14,13 @@ data class LandConfig(
     val nationLandBuyPrice: Int,
     val nationLandSellPrice: Int,
     val nationBuildPrice: Int,
-    val chuckLocation : Location
+    val chuckLocation: Location,
+    val villageBuildVaultPrice: Int,
+    val villageBuildLandPrice: Int,
+    val villageBuildBuildingPrice: Int,
+    val nationBuildVaultPrice: Int,
+    val nationBuildLandPrice: Int,
+    val nationBuildBuildingPrice: Int,
 ) : ConfigurationSerializable {
 
     override fun serialize(): Map<String, Any> {
@@ -28,6 +34,12 @@ data class LandConfig(
             "nationLandSellPrice" to nationLandSellPrice,
             "nationBuildPrice" to nationBuildPrice,
             "chuckLocation" to chuckLocation,
+            "villageBuildVaultPrice" to villageBuildVaultPrice,
+            "villageBuildLandPrice" to villageBuildLandPrice,
+            "villageBuildBuildingPrice" to villageBuildBuildingPrice,
+            "nationBuildVaultPrice" to nationBuildVaultPrice,
+            "nationBuildLandPrice" to nationBuildLandPrice,
+            "nationBuildBuildingPrice" to nationBuildBuildingPrice,
         )
     }
 
@@ -44,6 +56,12 @@ data class LandConfig(
                 data["nationLandSellPrice"] as Int,
                 data["nationBuildPrice"] as Int,
                 data["chuckLocation"] as Location,
+                data["villageBuildVaultPrice"] as Int,
+                data["villageBuildLandPrice"] as Int,
+                data["villageBuildBuildingPrice"] as Int,
+                data["nationBuildVaultPrice"] as Int,
+                data["nationBuildLandPrice"] as Int,
+                data["nationBuildBuildingPrice"] as Int,
             )
         }
     }

@@ -1,9 +1,9 @@
 package com.github.donghune.rating.command
 
+import com.github.donghune.plugin
 import com.github.donghune.rating.model.extension.getCreditRating
 import com.github.donghune.rating.model.extension.save
-import com.github.donghune.plugin
-import com.github.donghune.namulibrary.extension.sendInfoMessage
+import com.github.donghune.util.sendInfoMessage
 import com.github.monun.kommand.argument.player
 import com.github.monun.kommand.kommand
 import org.bukkit.entity.Player
@@ -12,25 +12,24 @@ object CreditRatingCommand {
     fun initialize() {
         plugin.kommand {
             register("credit") {
+                require { it.isOp }
                 then("up") {
                     then("user" to player()) {
                         executes {
-                            val player = it.sender as Player
                             val target: Player = it.parseArgument("user")
 
                             target.getCreditRating().apply { ratingId++ }.save()
-                            player.sendInfoMessage("해당 플레이어의 신용등급을 상승시켰습니다.")
+                            it.sender.sendInfoMessage("해당 플레이어의 신용등급을 상승시켰습니다.")
                         }
                     }
                 }
                 then("down") {
                     then("user" to player()) {
                         executes {
-                            val player = it.sender as Player
                             val target: Player = it.parseArgument("user")
 
                             target.getCreditRating().apply { ratingId-- }.save()
-                            player.sendInfoMessage("해당 플레이어의 신용등급을 하락시켰습니다.")
+                            it.sender.sendInfoMessage("해당 플레이어의 신용등급을 하락시켰습니다.")
                         }
                     }
                 }
@@ -38,7 +37,6 @@ object CreditRatingCommand {
         }
     }
 }
-
 
 /*
 신용등급

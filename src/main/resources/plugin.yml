@@ -2,10 +2,49 @@ name: Land
 version: $version
 main: com.github.donghune.LandPlugin
 api-version: 1.16
+softdepend:
+  - WorldEdit
 
 commands:
   credit:
+  personal:
   village:
   nation:
   land:
   landa:
+  money:
+  moneya:
+  shopa:
+  quest:
+  questa:
+  talkscripta:
+  itemdb:
+  stat:
+  level:
+  levela:
+  guild:
+  rolea:
+  skilla:
+  skill:
+  monstera:
+  enhance:
+  enhancea:
+  baga:
+  posta:
+  post:
+  auction:
+  categorya:
+  makera:
+  maker:
+  status:
+  equip:
+  equipa:
+  fishinga:
+  blockdropa:
+  illustratebooka:
+  nboxa:
+  regenblocka:
+  house:
+  housea:
+  joba:
+  warpa:

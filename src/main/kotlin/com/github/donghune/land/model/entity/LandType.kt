@@ -1,7 +1,9 @@
 package com.github.donghune.land.model.entity
 
+import com.github.donghune.land.model.repository.LandConfigRepository
+
 enum class LandType(
-    val korName: String
+    val korName: String,
 ) {
     NONE("기본"),
     PERSONAL("개인"),
@@ -14,6 +16,39 @@ enum class LandType(
             VILLAGE -> 2988000
             NATION -> 5976000
             else -> return 0
+        }
+    }
+
+    fun getBuildVaultPrice(): Int {
+        return when (this) {
+            VILLAGE -> LandConfigRepository.get().villageBuildVaultPrice
+            NATION -> LandConfigRepository.get().nationBuildVaultPrice
+            else -> 0
+        }
+    }
+
+    fun getBuildLandPrice(): Int {
+        return when (this) {
+            VILLAGE -> LandConfigRepository.get().villageBuildLandPrice
+            NATION -> LandConfigRepository.get().nationBuildLandPrice
+            else -> 0
+        }
+    }
+
+    fun getBuildBuildingPrice(): Int {
+        return when (this) {
+            VILLAGE -> LandConfigRepository.get().villageBuildBuildingPrice
+            NATION -> LandConfigRepository.get().nationBuildBuildingPrice
+            else -> 0
+        }
+    }
+
+
+    fun getBuildPrice(): Int {
+        return when (this) {
+            VILLAGE -> LandConfigRepository.get().villageBuildPrice
+            NATION -> LandConfigRepository.get().nationBuildPrice
+            else -> 0
         }
     }
 

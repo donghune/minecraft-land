@@ -1,9 +1,9 @@
 package com.github.donghune.land.inventory
 
 import com.github.donghune.land.model.entity.Land
-import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
+import com.github.donghune.util.ItemStackFactory
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -11,7 +11,6 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
-import java.util.*
 
 class LandTransformPlayerSelectInventory(
     private val land: Land,
@@ -39,12 +38,13 @@ class LandTransformPlayerSelectInventory(
     override suspend fun onPlayerInventoryClick(event: InventoryClickEvent) {
     }
 
+    // TODO: 2021/08/27 양도는 uuid 기준으로 되어야 함. 그래서 개인 별 그룹 별로 나눠야 할 것 같음.
     override suspend fun setContent() {
         Bukkit.getOnlinePlayers()
             .filter { it.uniqueId != player.uniqueId }
-            .forEachIndexed { index, player ->
-                setItem(index, ICON_HEAD(player)) {
-                    LandTransformConfirmInventory(land, player).open(it.whoClicked as Player)
+            .forEachIndexed { index, target ->
+                setItem(index, ICON_HEAD(target)) {
+                    LandTransformConfirmInventory(land, it.whoClicked as Player, target).open(it.whoClicked as Player)
                 }
             }
     }

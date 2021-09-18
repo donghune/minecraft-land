@@ -1,9 +1,8 @@
 package com.github.donghune.land.inventory
 
-import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.extension.replaceChatColorCode
+import com.github.donghune.util.ItemStackFactory
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import java.util.*
@@ -66,5 +65,4 @@ object InvIcon {
             .setDisplayName("&f${Bukkit.getOfflinePlayer(uuid).name}".replaceChatColorCode())
             .build()
     }
-
 }

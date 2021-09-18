@@ -1,8 +1,8 @@
 package com.github.donghune.land.model.repository
 
 import com.github.donghune.land.model.entity.Village
-import com.github.donghune.plugin
 import com.github.donghune.namulibrary.model.EntityRepository
+import com.github.donghune.plugin
 import java.io.File
 import java.util.*
 
@@ -12,7 +12,7 @@ object VillageRepository : EntityRepository<Village>() {
     override val file: File = File(plugin.dataFolder.path + "/villages")
 
     override fun getDefaultData(key: String): Village {
-        return Village(UUID.randomUUID().toString(), key, UUID.randomUUID().toString(), mutableListOf(), 0, 0)
+        return Village(UUID.randomUUID().toString(), key, UUID.randomUUID().toString(), mutableListOf(), 0, 0, Date())
     }
 
     fun get(uuid: UUID) = get(uuid.toString())

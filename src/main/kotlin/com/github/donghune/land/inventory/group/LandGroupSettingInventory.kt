@@ -6,10 +6,10 @@ import com.github.donghune.land.inventory.LandSellConfirmInventory
 import com.github.donghune.land.model.entity.Group
 import com.github.donghune.land.model.entity.Land
 import com.github.donghune.land.model.entity.LandType
-import com.github.donghune.namulibrary.extension.minecraft.ItemStackFactory
 import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.plugin
+import com.github.donghune.util.ItemStackFactory
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -20,8 +20,8 @@ import org.bukkit.inventory.ItemStack
 import java.util.*
 
 class LandGroupSettingInventory(
-    val group : Group,
-    val land : Land
+    val group: Group,
+    val land: Land
 ) : GUI(plugin, 27, "${group.getType().korName} 토지 설정") {
 
     companion object {

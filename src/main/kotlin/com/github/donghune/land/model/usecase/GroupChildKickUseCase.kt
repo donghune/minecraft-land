@@ -20,7 +20,7 @@ object GroupChildKickUseCase : BaseUseCase<GroupChildKickUseCaseParam, Unit>() {
     }
 
     override fun execute(param: GroupChildKickUseCaseParam) {
-        param.group.member.remove(param.childUUID.toString())
+        param.group.child.remove(param.childUUID.toString())
         when (param.group) {
             is Village -> param.childUUID.toPlayer()?.sendInfoMessage("마을에서 추방되었습니다.")
             is Nation -> param.childUUID.getVillage()?.getOwnerPlayer()?.sendInfoMessage("국가에서 추방되었습니다.")

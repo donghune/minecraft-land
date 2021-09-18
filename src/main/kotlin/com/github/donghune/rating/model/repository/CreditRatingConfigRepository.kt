@@ -1,9 +1,9 @@
 package com.github.donghune.rating.model.repository
 
+import com.github.donghune.namulibrary.model.ConfigRepository
+import com.github.donghune.plugin
 import com.github.donghune.rating.model.entity.CreditRating
 import com.github.donghune.rating.model.entity.CreditRatingConfig
-import com.github.donghune.plugin
-import com.github.donghune.namulibrary.model.ConfigRepository
 import java.io.File
 
 object CreditRatingConfigRepository : ConfigRepository<CreditRatingConfig>() {

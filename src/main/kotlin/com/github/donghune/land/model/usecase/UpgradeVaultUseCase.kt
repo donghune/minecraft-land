@@ -3,7 +3,7 @@ package com.github.donghune.land.model.usecase
 import org.bukkit.entity.Player
 
 data class UpgradeVaultUseCaseParam(
-    val player : Player
+    val player: Player
 )
 
 object UpgradeVaultUseCase : BaseUseCase<UpgradeVaultUseCaseParam, Unit>() {

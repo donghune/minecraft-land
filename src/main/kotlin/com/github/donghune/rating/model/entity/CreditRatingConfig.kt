@@ -4,7 +4,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.configuration.serialization.SerializableAs
 
 @SerializableAs("CreditRatingConfig")
-data class CreditRatingConfig (
+data class CreditRatingConfig(
     val creditRatingList: List<CreditRating>,
 ) : ConfigurationSerializable {
 
@@ -22,5 +22,4 @@ data class CreditRatingConfig (
             "creditRatingList" to creditRatingList,
         )
     }
-
 }

@@ -5,7 +5,7 @@ import org.bukkit.configuration.serialization.SerializableAs
 import java.util.*
 
 @SerializableAs("PlayerCreditRating")
-data class PlayerCreditRating (
+data class PlayerCreditRating(
     val uuid: UUID,
     var ratingId: Int,
 ) : ConfigurationSerializable {
@@ -26,5 +26,4 @@ data class PlayerCreditRating (
             "ratingId" to ratingId,
         )
     }
-
 }

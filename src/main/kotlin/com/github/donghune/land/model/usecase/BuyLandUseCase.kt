@@ -3,8 +3,8 @@ package com.github.donghune.land.model.usecase
 import com.github.donghune.land.extension.*
 import com.github.donghune.land.model.config.pref
 import com.github.donghune.land.model.entity.Land
-import com.github.donghune.land.model.entity.LandType
 import com.github.donghune.land.model.entity.LandOption
+import com.github.donghune.land.model.entity.LandType
 import com.github.donghune.land.model.repository.LandRepository
 import com.github.donghune.namulibrary.extension.sendErrorMessage
 import com.github.donghune.namulibrary.extension.sendInfoMessage
@@ -33,7 +33,7 @@ object BuyLandUseCase : BaseUseCase<BuyLandUseCaseParam, Unit>() {
             return false
         }
 
-        if (param.player.hasMoney() < param.landType.getLandBuyPrice()) {
+        if (!param.player.hasMoney(param.landType.getLandBuyPrice().toInt())) {
             param.player.sendErrorMessage("소지금액이 부족합니다.")
             return false
         }
@@ -56,11 +56,9 @@ object BuyLandUseCase : BaseUseCase<BuyLandUseCaseParam, Unit>() {
             param.player.chunk.chunkKey,
             LandType.PERSONAL,
             param.player.uniqueId.toString(),
-            mutableListOf(),
             LandOption.getDefaultTable()
         ).also { LandRepository.create(it.chunkKey.toString(), it) }
         param.player.takeMoney(param.landType.getLandBuyPrice())
         param.player.sendInfoMessage("토지를 구매하였습니다.")
     }
-
 }
