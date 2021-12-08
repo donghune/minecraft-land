@@ -5,6 +5,7 @@ import com.github.donghune.land.command.LandCommand
 import com.github.donghune.land.listener.EventListener
 import com.github.donghune.land.model.entity.*
 import com.github.donghune.land.model.repository.LandConfigRepository
+import com.github.donghune.land.model.repository.LandRepository
 import com.github.donghune.land.model.repository.TaxConfigRepository
 import com.github.donghune.land.schduler.PersonalTaxScheduler
 import com.github.donghune.land.schduler.PlayerLocationScheduler
@@ -43,6 +44,15 @@ class LandPlugin : JavaPlugin() {
     override fun onEnable() {
         plugin = this
 
+        /**
+        o 플레이어의 보유액 정보가 변경되는 즉시 파일의 정보를 수정
+        o 신용 등급을 올려도 결제되지 않음(신용등급 자체는 올라감)
+        o 플레이어가 접속중이지 않을때 관리자 명령어로 신용등급 조정이 안됨
+        ? 토지를 사면 땅으로 빨려들어가는 것을 수정할 필요가 있음
+        o 개인 토지 세금을 플레이어 플레이 타임 기준으로 변경
+        x 토지 경계 벽에비비면 승천함
+         */
+
         ConfigurationSerialization.registerClass(CreditRating::class.java)
         ConfigurationSerialization.registerClass(CreditRatingConfig::class.java)
         ConfigurationSerialization.registerClass(PlayerCreditRating::class.java)
@@ -64,9 +74,6 @@ class LandPlugin : JavaPlugin() {
         SchedulerManager.initializeSchedulerManager(this)
         Bukkit.getScheduler().runTaskTimer(this, PlayerLocationScheduler, 0L, 1L)
         PersonalTaxScheduler.runSecond(1L, Int.MAX_VALUE)
-
-        println("Loaded world list")
-        Bukkit.getWorlds().forEachIndexed { index, world -> println(index.toString() + " " + world.name) }
 
         // priority 1
         if (NBoxRepository.getList().isEmpty()) {
@@ -96,15 +103,17 @@ class LandPlugin : JavaPlugin() {
             RegenRegionRepository.createDefaultData("example")
         }
         WarpConfigRepository.get()
-        Bukkit.getPluginManager().registerEvents(PlayerGroundListener(), this)
-
-        println(LandConfigRepository.get().nationLandSellPrice)
-        println(TaxConfigRepository.get().groupTaxTable)
     }
 
     override fun onDisable() {
         moneyPlugin.onDisable()
         shopPlugin.onDisable()
         regenBlockPlugin.onDisable()
+
+        LandRepository.getList().forEach { it.save() }
+    }
+
+    private fun Land.save() {
+        LandRepository.save(chunkKey.toString())
     }
 }

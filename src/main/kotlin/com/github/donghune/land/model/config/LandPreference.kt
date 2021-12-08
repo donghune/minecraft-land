@@ -1,6 +1,5 @@
 package com.github.donghune.land.model.config
 
-import com.github.donghune.land.model.entity.LandConfig
 import com.github.donghune.land.model.repository.LandConfigRepository
 import org.bukkit.Location
 
@@ -24,7 +23,7 @@ object LandPreference {
     val villageLandSellPrice: Int
         get() = LandConfigRepository.get().villageLandSellPrice
 
-    val villageBuildPrice: Int
+    val villageTotalPrice: Int
         get() = LandConfigRepository.get().villageBuildPrice
 
     val nationLandBuyPrice: Int
@@ -33,20 +32,24 @@ object LandPreference {
     val nationLandSellPrice: Int
         get() = LandConfigRepository.get().nationLandSellPrice
 
-    val nationBuildPrice: Int
+    val nationTotalPrice: Int
         get() = LandConfigRepository.get().nationBuildPrice
 
     val villageBuildVaultPrice: Int
         get() = LandConfigRepository.get().villageBuildVaultPrice
+
     val villageBuildLandPrice: Int
         get() = LandConfigRepository.get().villageBuildLandPrice
+
     val villageBuildBuildingPrice: Int
         get() = LandConfigRepository.get().villageBuildBuildingPrice
 
     val nationBuildVaultPrice: Int
         get() = LandConfigRepository.get().nationBuildVaultPrice
+
     val nationBuildLandPrice: Int
         get() = LandConfigRepository.get().nationBuildLandPrice
+
     val nationBuildBuildingPrice: Int
         get() = LandConfigRepository.get().nationBuildBuildingPrice
 }

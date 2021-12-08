@@ -17,25 +17,34 @@ val PersonalTaxScheduler = SchedulerManager {
     }
 
     doing {
+
+        // server
         ptRepo.server++
-        if (ptRepo.server % 3600 != 0) {
-            return@doing
+        if (ptRepo.server % 3600 == 0) {
+
+            // 1. 개인 -> 마을 금고
+            Bukkit.getOnlinePlayers().forEach { it.paymentToVillage() }
+
+            // 2. 마을 금고  -> 국가 금고
+            VillageRepository.getList().forEach { it.paymentToNation() }
+
+            // 4. 마을 -> 서버
+            VillageRepository.getList().forEach { it.paymentTax() }
+
+            // 5. 국가 -> 서버
+            NationRepository.getList().forEach { it.paymentTax() }
         }
 
-        // 1. 개인 -> 마을 금고
-        Bukkit.getOnlinePlayers().forEach { it.paymentToVillage() }
 
-        // 2. 마을 금고  -> 국가 금고
-        VillageRepository.getList().forEach { it.paymentToNation() }
+        Bukkit.getOnlinePlayers().forEach { player ->
+            ptRepo.players[player.uniqueId] = (ptRepo.players[player.uniqueId] ?: 0) + 1
+            if ((ptRepo.players[player.uniqueId] ?: 0) % 3600 == 0) {
+                // 3. 개인 -> 서버
+                player.paymentTax()
+            }
+        }
 
-        // 3. 개인 -> 서버
-        Bukkit.getOnlinePlayers().forEach { it.paymentTax() }
-
-        // 4. 마을 -> 서버
-        VillageRepository.getList().forEach { it.paymentTax() }
-
-        // 5. 국가 -> 서버
-        NationRepository.getList().forEach { it.paymentTax() }
+        PlayTimeConfigRepository.save()
     }
 
     finished {

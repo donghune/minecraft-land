@@ -4,7 +4,6 @@ import com.github.donghune.land.model.entity.*
 import com.github.donghune.land.model.repository.LandRepository
 import com.github.donghune.land.model.repository.NationRepository
 import com.github.donghune.land.model.repository.VillageRepository
-import com.github.donghune.money.util.playerMoney
 import com.github.donghune.namulibrary.extension.replaceChatColorCode
 import com.github.donghune.util.ItemStackFactory
 import com.sk89q.worldedit.WorldEdit
@@ -15,30 +14,6 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.BoundingBox
 import java.util.*
-
-fun Player.hasMoney(amount: Int): Boolean {
-    return amount <= playerMoney.money
-}
-
-fun Player.giveMoney(money: Long) {
-    playerMoney.giveMoney(money)
-}
-
-fun Player.takeMoney(money: Long) {
-    playerMoney.takeMoney(money)
-}
-
-fun OfflinePlayer.hasMoney(amount: Int): Boolean {
-    return amount <= playerMoney?.money ?: 0
-}
-
-fun OfflinePlayer.giveMoney(money: Long) {
-    playerMoney?.giveMoney(money)
-}
-
-fun OfflinePlayer.takeMoney(money: Long) {
-    playerMoney?.takeMoney(money)
-}
 
 fun Player.getGroup(): Group? {
     return getBelongingVillage() ?: getBelongingNation()

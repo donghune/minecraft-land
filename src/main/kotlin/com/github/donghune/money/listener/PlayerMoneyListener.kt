@@ -1,8 +1,7 @@
 package com.github.donghune.money.listener
 
+import com.github.donghune.hmm.wallet
 import com.github.donghune.money.model.entity.CheckPaper
-import com.github.donghune.money.util.edit
-import com.github.donghune.money.util.playerMoney
 import com.github.donghune.namulibrary.extension.sendInfoMessage
 import com.github.donghune.namulibrary.nms.getNBTTagCompound
 import org.bukkit.event.EventHandler
@@ -17,7 +16,7 @@ class PlayerMoneyListener : Listener {
 
         val checkPaper = itemStack.getNBTTagCompound(CheckPaper::class.java) ?: return
 
-        player.playerMoney.apply { money += checkPaper.price }.edit()
+        player.wallet.giveMoney(checkPaper.price)
         itemStack.amount -= 1
         player.sendInfoMessage("수표를 사용하여 돈을 획득 하였습니다.")
     }

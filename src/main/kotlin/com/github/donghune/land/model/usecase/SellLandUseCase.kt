@@ -1,6 +1,6 @@
 package com.github.donghune.land.model.usecase
 
-import com.github.donghune.land.extension.giveMoney
+import com.github.donghune.hmm.wallet
 import com.github.donghune.land.extension.sendInfoMessage
 import com.github.donghune.land.extension.toUUID
 import com.github.donghune.land.model.config.pref
@@ -28,7 +28,7 @@ object SellLandUseCase : BaseUseCase<SellLandUseCaseParam, Unit>() {
             LandType.NONE -> return
             LandType.PERSONAL -> {
                 val offlinePlayer = Bukkit.getOfflinePlayer(land.owner.toUUID())
-                offlinePlayer.giveMoney(pref.personalLandSellPrice.toLong())
+                offlinePlayer.wallet.giveMoney(pref.personalLandSellPrice.toLong())
                 offlinePlayer.sendInfoMessage("${pref.personalLandSellPrice.toLong().toMoneyFormat()} 이 지급되었습니다.")
             }
             LandType.VILLAGE -> {
@@ -38,7 +38,7 @@ object SellLandUseCase : BaseUseCase<SellLandUseCaseParam, Unit>() {
                     it.map { uuidStr -> uuidStr.toUUID() }
                         .forEach { uuid ->
                             val offlinePlayer = Bukkit.getOfflinePlayer(uuid)
-                            offlinePlayer.giveMoney(sellPrice.toLong())
+                            offlinePlayer.wallet.giveMoney(sellPrice.toLong())
                             offlinePlayer.sendInfoMessage("${sellPrice.toLong().toMoneyFormat()} 이 지급되었습니다.")
                         }
                 }

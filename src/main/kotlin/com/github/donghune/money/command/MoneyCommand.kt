@@ -1,6 +1,6 @@
 package com.github.donghune.money.command
 
-import com.github.donghune.money.util.playerMoney
+import com.github.donghune.hmm.wallet
 import com.github.donghune.namulibrary.extension.toMoneyFormat
 import com.github.donghune.plugin
 import com.github.monun.kommand.argument.integer
@@ -17,7 +17,7 @@ object MoneyCommand {
                     executes {
                         val player = it.sender as Player
 
-                        it.sender.sendMessage("[System] 현재 보유중인 금액은 ${player.playerMoney.money.toMoneyFormat()} 입니다.")
+                        it.sender.sendMessage("[System] 현재 보유중인 금액은 ${player.wallet.getMoney().toMoneyFormat()} 입니다.")
                     }
                 }
             }
@@ -30,7 +30,7 @@ object MoneyCommand {
                                 val target = it.parseArgument<Player>("player")
                                 val money = it.parseArgument<Int>("money")
 
-                                target.playerMoney.money += money
+                                target.wallet.giveMoney(money)
                                 it.sender.sendMessage("[System] 해당 플레이어에게 돈을 지급 하였습니다.")
                             }
                         }
@@ -43,7 +43,7 @@ object MoneyCommand {
                                 val target = it.parseArgument<Player>("player")
                                 val money = it.parseArgument<Int>("money")
 
-                                target.playerMoney.money -= money
+                                target.wallet.takeMoney(money)
                                 it.sender.sendMessage("[System] 해당 플레이어의 돈을 차감 하였습니다.")
                             }
                         }
@@ -56,7 +56,7 @@ object MoneyCommand {
                                 val target = it.parseArgument<Player>("player")
                                 val money = it.parseArgument<Int>("money")
 
-                                target.playerMoney.money = money.toLong()
+                                target.wallet.setMoney(money)
                                 it.sender.sendMessage("[System] 해당 플레이어의 돈을 설정 하였습니다.")
                             }
                         }
@@ -67,7 +67,7 @@ object MoneyCommand {
                         executes {
                             val target = it.parseArgument<Player>("player")
 
-                            it.sender.sendMessage("[System] 해당 플레이어의 금액은 ${target.playerMoney.money.toMoneyFormat()} 입니다.")
+                            it.sender.sendMessage("[System] 해당 플레이어의 금액은 ${target.wallet.getMoney().toMoneyFormat()} 입니다.")
                         }
                     }
                 }

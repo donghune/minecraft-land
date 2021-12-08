@@ -1,6 +1,6 @@
 package com.github.donghune.land.model.entity
 
-import com.github.donghune.land.model.repository.LandConfigRepository
+import com.github.donghune.land.model.config.pref
 
 enum class LandType(
     val korName: String,
@@ -10,35 +10,35 @@ enum class LandType(
     VILLAGE("마을"),
     NATION("국가");
 
-    fun getLandBuyPrice(): Long {
+    fun getLandBuyPrice(): Int {
         return when (this) {
-            PERSONAL -> 1792800
-            VILLAGE -> 2988000
-            NATION -> 5976000
+            PERSONAL -> pref.personalLandBuyPrice
+            VILLAGE -> pref.villageLandBuyPrice
+            NATION -> pref.nationLandBuyPrice
             else -> return 0
         }
     }
 
     fun getBuildVaultPrice(): Int {
         return when (this) {
-            VILLAGE -> LandConfigRepository.get().villageBuildVaultPrice
-            NATION -> LandConfigRepository.get().nationBuildVaultPrice
+            VILLAGE -> pref.villageBuildVaultPrice
+            NATION -> pref.nationBuildVaultPrice
             else -> 0
         }
     }
 
     fun getBuildLandPrice(): Int {
         return when (this) {
-            VILLAGE -> LandConfigRepository.get().villageBuildLandPrice
-            NATION -> LandConfigRepository.get().nationBuildLandPrice
+            VILLAGE -> pref.villageBuildLandPrice
+            NATION -> pref.nationBuildLandPrice
             else -> 0
         }
     }
 
     fun getBuildBuildingPrice(): Int {
         return when (this) {
-            VILLAGE -> LandConfigRepository.get().villageBuildBuildingPrice
-            NATION -> LandConfigRepository.get().nationBuildBuildingPrice
+            VILLAGE -> pref.villageBuildBuildingPrice
+            NATION -> pref.nationBuildBuildingPrice
             else -> 0
         }
     }
@@ -46,8 +46,8 @@ enum class LandType(
 
     fun getBuildPrice(): Int {
         return when (this) {
-            VILLAGE -> LandConfigRepository.get().villageBuildPrice
-            NATION -> LandConfigRepository.get().nationBuildPrice
+            VILLAGE -> pref.villageTotalPrice
+            NATION -> pref.nationTotalPrice
             else -> 0
         }
     }

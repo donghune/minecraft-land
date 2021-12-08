@@ -11,7 +11,7 @@ data class Stuff(
     val itemStack: ItemStack,
     val buyPrice: Int,
     val sellPrice: Int,
-) : ConfigurationSerializable {
+) : ConfigurationSerializable, Cloneable {
 
     companion object {
         @JvmStatic
@@ -22,6 +22,14 @@ data class Stuff(
                 data["sellPrice"] as Int
             )
         }
+    }
+
+    override fun serialize(): Map<String, Any> {
+        return mapOf(
+            "itemStack" to itemStack,
+            "buyPrice" to buyPrice,
+            "sellPrice" to sellPrice
+        )
     }
 
     fun toItemStack(): ItemStack {
@@ -49,11 +57,7 @@ data class Stuff(
         return itemStack
     }
 
-    override fun serialize(): Map<String, Any> {
-        return mapOf(
-            "itemStack" to itemStack,
-            "buyPrice" to buyPrice,
-            "sellPrice" to sellPrice
-        )
+    override fun clone(): Any {
+        return super.clone()
     }
 }

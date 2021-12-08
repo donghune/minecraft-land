@@ -1,34 +1,61 @@
 package com.github.donghune.rating.command
 
+import com.github.donghune.hmm.wallet
+import com.github.donghune.land.extension.sendErrorMessage
 import com.github.donghune.plugin
 import com.github.donghune.rating.model.extension.getCreditRating
-import com.github.donghune.rating.model.extension.save
+import com.github.donghune.rating.model.repository.CreditRatingConfigRepository
 import com.github.donghune.util.sendInfoMessage
 import com.github.monun.kommand.argument.player
+import com.github.monun.kommand.argument.string
 import com.github.monun.kommand.kommand
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 object CreditRatingCommand {
     fun initialize() {
         plugin.kommand {
             register("credit") {
+                then("upgrade") {
+                    executes {
+                        val player = it.sender as Player
+                        val credit = player.getCreditRating()
+                        val nextCredit =
+                            CreditRatingConfigRepository.get().creditRatingList.find { rating -> rating.id == credit.ratingId + 1 }
+
+                        if (nextCredit == null) {
+                            player.sendErrorMessage("현재 등급이 마지막 입니다.")
+                            return@executes
+                        }
+
+                        if (!player.wallet.hasMoney(nextCredit.price)) {
+                            player.sendErrorMessage("현재 보유중인 금액이 부족합니다.")
+                            return@executes
+                        }
+
+                        player.wallet.upCreditRating()
+                        player.sendInfoMessage("신용등급이 상승하였습니다.")
+                    }
+                }
+            }
+            register("credita") {
                 require { it.isOp }
                 then("up") {
-                    then("user" to player()) {
+                    then("user" to string()) {
                         executes {
-                            val target: Player = it.parseArgument("user")
+                            val target: String = it.parseArgument("user")
 
-                            target.getCreditRating().apply { ratingId++ }.save()
+                            Bukkit.getOfflinePlayer(target).wallet.upCreditRating()
                             it.sender.sendInfoMessage("해당 플레이어의 신용등급을 상승시켰습니다.")
                         }
                     }
                 }
                 then("down") {
-                    then("user" to player()) {
+                    then("user" to string()) {
                         executes {
-                            val target: Player = it.parseArgument("user")
+                            val target: String = it.parseArgument("user")
 
-                            target.getCreditRating().apply { ratingId-- }.save()
+                            Bukkit.getOfflinePlayer(target).wallet.dropCreditRating()
                             it.sender.sendInfoMessage("해당 플레이어의 신용등급을 하락시켰습니다.")
                         }
                     }

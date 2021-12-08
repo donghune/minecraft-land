@@ -17,7 +17,7 @@ object TransferLandUseCase : BaseUseCase<TransferLandUseCaseParam, Unit>() {
         return when (param.land.type) {
             LandType.PERSONAL -> {
                 // 상대방이 토지가 모두 가득 차 있을 경우
-                if (param.target.isHasMoreLand(LandType.PERSONAL)) {
+                if (!param.target.isHasMoreLand(LandType.PERSONAL)) {
                     param.player.sendErrorMessage("상대방의 토지 개수가 이미 가득 차 있습니다.")
                     return false
                 }
@@ -40,7 +40,7 @@ object TransferLandUseCase : BaseUseCase<TransferLandUseCaseParam, Unit>() {
                     return false
                 }
 
-                if (target.isHasMoreLand(LandType.VILLAGE)) {
+                if (!target.isHasMoreLand(LandType.VILLAGE)) {
                     player.sendErrorMessage("상대방의 마을 토지 개수가 이미 가득 차 있습니다.")
                     return false
                 }

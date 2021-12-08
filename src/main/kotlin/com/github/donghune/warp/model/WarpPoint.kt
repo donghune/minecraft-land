@@ -47,7 +47,7 @@ data class WarpPoint(
         return ItemStackFactory()
             .setType(iconMaterial)
             .setDisplayName(iconDisplay)
-            .setLore(iconLore)
+            .addLore(*iconLore.toTypedArray())
             .build()
             .addNBTTagCompound(MetaData(name))
     }

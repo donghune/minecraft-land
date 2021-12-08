@@ -1,5 +1,6 @@
 package com.github.donghune.land.extension
 
+import com.github.donghune.hmm.wallet
 import com.github.donghune.land.model.entity.Group
 import com.github.donghune.land.model.entity.Nation
 import com.github.donghune.land.model.entity.Village
@@ -16,11 +17,11 @@ import org.bukkit.entity.Player
 fun Player.paymentTax() {
     val taxPrice = getTaxPrice()
 
-    if (hasMoney(taxPrice).not()) {
+    if (wallet.hasMoney(taxPrice).not()) {
         return
     }
 
-    takeMoney(taxPrice.toLong())
+    wallet.takeMoney(taxPrice)
     sendErrorMessage("보유금액에서 ${taxPrice.toMoneyFormat()} 만큼 세금이 지불되었습니다.")
 }
 
@@ -67,7 +68,7 @@ fun Player.paymentToVillage() {
     val villageLandTax = getTaxPrice()
     val nationLandTax = (getBelongingNation() ?: return).getTaxPrice()
     val taxPrice = ((villageLandTax / n + nationLandTax / n) * TaxConfigRepository.get().personalToVillageTax).toLong()
-    takeMoney(taxPrice)
+    wallet.takeMoney(taxPrice)
     village.vaultGold += taxPrice
     sendInfoMessage("마을에 세금을 납부하였습니다.")
 }

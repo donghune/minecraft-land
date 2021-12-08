@@ -62,7 +62,7 @@ data class Land(
 fun Land?.hasPermission(entity: Entity, landOption: LandOption): Boolean {
 
     // Permission 기본적으로 공공재의 권한은 모두 가지고 있음 그래서 true 로 나와야 함
-    if (this == null) {
+    if (this == null || this.type == LandType.NONE) {
         return landOption.getPublicValue()
     }
 

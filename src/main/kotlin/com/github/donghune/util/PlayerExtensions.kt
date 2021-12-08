@@ -95,12 +95,10 @@ fun Pair<Location, Location>.toBlockArray(): List<Block> {
     val blockList = mutableListOf<Block>()
 
     if (first.world == null) {
-        println("${first.world} 는 존재하지 않는 월드입니다.")
         return emptyList()
     }
 
     if (second.world == null) {
-        println("${second.world} 는 존재하지 않는 월드입니다.")
         return emptyList()
     }
 

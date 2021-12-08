@@ -4,6 +4,7 @@ import com.github.donghune.namulibrary.struct.SubMainManager
 import com.github.donghune.regenblock.listeners.RegenBlockListener
 import com.github.donghune.regenblock.model.RegenRegion
 import com.github.donghune.regenblock.model.RegenRegionInfo
+import com.github.donghune.regenblock.model.RegenRegionRepository
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
@@ -13,6 +14,7 @@ class RegenBlockPlugin(
 ) : SubMainManager(dataFolder, plugin) {
 
     override fun onDisable() {
+        RegenRegionRepository.getList().forEach { RegenRegionRepository.save(it.name) }
     }
 
     override fun setupCommands() {

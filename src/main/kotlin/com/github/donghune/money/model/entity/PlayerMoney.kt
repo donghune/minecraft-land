@@ -6,7 +6,7 @@ import org.bukkit.configuration.serialization.SerializableAs
 @SerializableAs("PlayerMoney")
 data class PlayerMoney(
     val uuid: String,
-    var money: Long
+    var money: Long,
 ) : ConfigurationSerializable {
 
     companion object {
@@ -24,13 +24,5 @@ data class PlayerMoney(
             "uuid" to uuid,
             "money" to money
         )
-    }
-
-    fun giveMoney(money: Long) {
-        this.money += money
-    }
-
-    fun takeMoney(money: Long) {
-        this.money -= money
     }
 }

@@ -35,7 +35,7 @@ class Village(
                 data["member"] as MutableList<String>,
                 data["vaultLevel"] as Int,
                 (data["vaultGold"] as String).toLong(),
-                Date((data["createAt"] as String).toLong()),
+                Date((data["createdAt"] as String).toLong()),
             )
         }
     }

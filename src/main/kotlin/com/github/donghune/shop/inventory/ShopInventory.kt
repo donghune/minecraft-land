@@ -1,8 +1,7 @@
 package com.github.donghune.shop.inventory
 
+import com.github.donghune.hmm.wallet
 import com.github.donghune.land.inventory.InvIcon
-import com.github.donghune.money.util.edit
-import com.github.donghune.money.util.playerMoney
 import com.github.donghune.namulibrary.extension.*
 import com.github.donghune.namulibrary.inventory.GUI
 import com.github.donghune.namulibrary.struct.PagingList
@@ -10,6 +9,7 @@ import com.github.donghune.plugin
 import com.github.donghune.shop.api.ShopItemSellEvent
 import com.github.donghune.shop.model.ShopMessage
 import com.github.donghune.shop.model.entity.Shop
+import com.github.donghune.shop.model.entity.Stuff
 import com.github.donghune.util.ItemStackFactory
 import com.github.donghune.util.isSimilarTo
 import org.bukkit.Bukkit
@@ -53,7 +53,7 @@ class ShopInventory(
             page = min(page + 1, stuffList.lastPageIndex)
             refreshContent()
         }
-        stuffList.getPage(page).forEachIndexed { index, stuff ->
+        stuffList.getPage(page).map { it.copy() }.forEachIndexed { index, stuff ->
             setItem(index, stuff.toItemStack().clone()) {
                 val player = it.whoClicked as Player
 
@@ -71,7 +71,7 @@ class ShopInventory(
 
                 val totalPrice = stuff.buyPrice * amount
 
-                if (player.playerMoney.money <= totalPrice) {
+                if (!player.wallet.hasMoney(totalPrice)) {
                     return@setItem player.sendErrorMessage("소지금이 부족합니다.")
                 }
 
@@ -79,13 +79,17 @@ class ShopInventory(
                     return@setItem player.sendErrorMessage("인벤토리에 공간이 없습니다 ")
                 }
 
-                player.playerMoney.takeMoney(stuff.buyPrice.toLong())
+                player.wallet.takeMoney(stuff.buyPrice)
                 player.inventory.addItem(stuff.itemStack)
                 player.sendInfoMessage(ShopMessage.BUY_ITEM)
-                inventory.setItem(53, ICON_PLAYER_MONEY(player.playerMoney.money))
+                setItem(53, ICON_PLAYER_MONEY(player.wallet.getMoney())) { ice ->
+                    ice.isCancelled = true
+                }
             }
 
-            inventory.setItem(53, ICON_PLAYER_MONEY(player.playerMoney.money))
+            setItem(53, ICON_PLAYER_MONEY(player.wallet.getMoney())) {
+                it.isCancelled = true
+            }
         }
     }
 
@@ -103,10 +107,8 @@ class ShopInventory(
             return
         }
 
-        val inventory = event.view
         val slot = event.rawSlot
         val player = event.whoClicked as Player
-        val playerMoney = player.playerMoney
 
         event.isCancelled = true
 
@@ -149,7 +151,7 @@ class ShopInventory(
                 )
 
                 // 판매처리
-                playerMoney.apply { giveMoney(stuff.sellPrice * amount.toLong()) }.edit()
+                player.wallet.giveMoney(stuff.sellPrice * amount)
                 currentItem.amount -= amount
                 player.sendInfoMessage(
                     ShopMessage.SELL_ITEM.format(
@@ -164,6 +166,8 @@ class ShopInventory(
             else -> return
         }
 
-        inventory.setItem(53, ICON_PLAYER_MONEY(player.playerMoney.money))
+        setItem(53, ICON_PLAYER_MONEY(player.wallet.getMoney())) { ice ->
+            ice.isCancelled = true
+        }
     }
 }

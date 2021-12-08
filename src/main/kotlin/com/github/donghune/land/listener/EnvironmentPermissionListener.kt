@@ -45,6 +45,20 @@ class EventListener : Listener {
             if (!from.hasPermission(player, LandOption.EXIT) || !to.hasPermission(player, LandOption.ENTRANCE)) {
                 event.isCancelled = true
             }
+        } else {
+            if (from != null) {
+                if (!from.hasPermission(player, LandOption.EXIT) || !from.hasPermission(player, LandOption.ENTRANCE)) {
+                    event.isCancelled = true
+                }
+            } else if (to != null) {
+                if (!to.hasPermission(player, LandOption.EXIT) || !to.hasPermission(player, LandOption.ENTRANCE)) {
+                    event.isCancelled = true
+                }
+            } else {
+                if (!from.hasPermission(player, LandOption.EXIT) || !to.hasPermission(player, LandOption.ENTRANCE)) {
+                    event.isCancelled = true
+                }
+            }
         }
     }
 
@@ -305,7 +319,7 @@ class EventListener : Listener {
         if (player.isOp) return
 
         if (!event.blockClicked.getRelative(event.blockFace).chunk.getLand()
-            .hasPermission(player, LandOption.BUCKET_EMPTY)
+                .hasPermission(player, LandOption.BUCKET_EMPTY)
         ) {
             event.isCancelled = true
         }

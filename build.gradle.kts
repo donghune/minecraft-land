@@ -127,3 +127,29 @@ publishing {
         }
     }
 }
+
+//googleDrive {
+//    // Missing folders will be created
+//    destinationFolderPath = 'test/upload'
+//
+//    // Or you can specify a folder id
+//    destinationFolderId = '1abcedefg'
+//
+//    // If not specified, simple file name is used
+//    destinationName = 'cute_picture.jpg'
+//
+//    file = file('c:\\Users\\User\\Pictures\\kittens.jpg')
+//
+//    // Default is true
+//    updateIfExists = false
+//
+//    // Do not put those directly into the build file
+//    clientId  = '<YOUR CLIENT ID>'
+//    clientSecret = '<YOUR CLIENT SECRET>'
+//
+//    // Location where Google Drive client's credentials will be stored. You may
+//    // want to have a separate dir for each project.
+//    // Default is `${user.home}/.credentials/google-drive-uploader`, i.e.
+//    // shared between all projects.
+//    credentialsDir = file('.gradle/google-drive-uploader/credentials/')
+//}

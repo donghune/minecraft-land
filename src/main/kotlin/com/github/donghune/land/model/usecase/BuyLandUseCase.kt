@@ -1,5 +1,6 @@
 package com.github.donghune.land.model.usecase
 
+import com.github.donghune.hmm.wallet
 import com.github.donghune.land.extension.*
 import com.github.donghune.land.model.config.pref
 import com.github.donghune.land.model.entity.Land
@@ -18,6 +19,12 @@ data class BuyLandUseCaseParam(
 object BuyLandUseCase : BaseUseCase<BuyLandUseCaseParam, Unit>() {
 
     override fun validation(param: BuyLandUseCaseParam): Boolean {
+
+        if (param.player.chunk.world.name != "world") {
+            param.player.sendErrorMessage("야생월드에서만 토지를 구매할 수 있습니다.")
+            return false
+        }
+
         if (LandRepository.get(param.player.chunk.chunkKey.toString()) != null) {
             param.player.sendErrorMessage("이미 누가 소유하고 있는 토지입니다.")
             return false
@@ -33,7 +40,7 @@ object BuyLandUseCase : BaseUseCase<BuyLandUseCaseParam, Unit>() {
             return false
         }
 
-        if (!param.player.hasMoney(param.landType.getLandBuyPrice().toInt())) {
+        if (!param.player.wallet.hasMoney(param.landType.getLandBuyPrice())) {
             param.player.sendErrorMessage("소지금액이 부족합니다.")
             return false
         }
@@ -58,7 +65,7 @@ object BuyLandUseCase : BaseUseCase<BuyLandUseCaseParam, Unit>() {
             param.player.uniqueId.toString(),
             LandOption.getDefaultTable()
         ).also { LandRepository.create(it.chunkKey.toString(), it) }
-        param.player.takeMoney(param.landType.getLandBuyPrice())
+        param.player.wallet.takeMoney(param.landType.getLandBuyPrice().toLong())
         param.player.sendInfoMessage("토지를 구매하였습니다.")
     }
 }

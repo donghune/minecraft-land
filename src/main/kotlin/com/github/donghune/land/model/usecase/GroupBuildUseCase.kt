@@ -1,9 +1,8 @@
 package com.github.donghune.land.model.usecase
 
+import com.github.donghune.hmm.wallet
 import com.github.donghune.land.extension.getBelongingNation
 import com.github.donghune.land.extension.getBelongingVillage
-import com.github.donghune.land.extension.hasMoney
-import com.github.donghune.land.extension.takeMoney
 import com.github.donghune.land.model.config.pref
 import com.github.donghune.land.model.entity.*
 import com.github.donghune.land.model.repository.LandRepository
@@ -32,15 +31,16 @@ object GroupBuildUseCase : BaseUseCase<GroupBuildUseCaseParam, Unit>() {
         }
 
         val buildPrice = when (param.landType) {
-            LandType.VILLAGE -> pref.villageBuildPrice
-            LandType.NATION -> pref.nationBuildPrice
-            else -> 0
+            LandType.VILLAGE -> pref.villageTotalPrice
+            LandType.NATION -> pref.nationTotalPrice
+            else -> throw Exception("올바르지 않은 로직입니다. 개발자에게 문의하세요 \n Debug : $param")
         }
 
-        if (param.player.hasMoney(buildPrice).not()) {
+        if (param.player.wallet.hasMoney(buildPrice).not()) {
             param.player.sendErrorMessage("보유하고 있는 금액이 부족합니다.")
             return false
         }
+
         return true
     }
 
@@ -63,6 +63,8 @@ object GroupBuildUseCase : BaseUseCase<GroupBuildUseCaseParam, Unit>() {
                     param.player.getBelongingVillage()?.uuid.toString(),
                     LandOption.getDefaultTable()
                 ).also { LandRepository.create(it.chunkKey.toString(), it) }
+
+                param.player.wallet.takeMoney(pref.villageTotalPrice.toLong())
             }
             LandType.NATION -> {
                 Nation(
@@ -81,11 +83,12 @@ object GroupBuildUseCase : BaseUseCase<GroupBuildUseCaseParam, Unit>() {
                     param.player.getBelongingNation()?.uuid.toString(),
                     LandOption.getDefaultTable()
                 ).also { LandRepository.create(it.chunkKey.toString(), it) }
+
+                param.player.wallet.takeMoney(pref.nationTotalPrice.toLong())
             }
             else -> return
         }
 
-        param.player.takeMoney(pref.villageBuildPrice.toLong())
         param.player.sendInfoMessage("${param.landType.korName}을 건설하였습니다.")
     }
 }
